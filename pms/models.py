@@ -22,7 +22,7 @@ from horilla_views.cbv_methods import render_template
 class Period(HorillaModel):
     """this is a period model used for creating period"""
 
-    period_name = models.CharField(max_length=150, unique=True)
+    period_name = models.CharField(max_length=2500, unique=True)
     start_date = models.DateField()
     end_date = models.DateField()
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
@@ -41,13 +41,13 @@ class KeyResult(HorillaModel):
         ("Currency", (("$", "USD$"), ("₹", "INR"), ("€", "EUR"))),
     )
     title = models.CharField(
-        max_length=60, null=True, blank=False, verbose_name="Title"
+        max_length=2500, null=True, blank=False, verbose_name="Title"
     )
     description = models.TextField(
-        blank=False, null=False, max_length=255, verbose_name="Description"
+        blank=False, null=False, max_length=2550, verbose_name="Description"
     )
     progress_type = models.CharField(
-        max_length=60, default="%", choices=PROGRESS_CHOICES
+        max_length=2550, default="%", choices=PROGRESS_CHOICES
     )
     target_value = models.IntegerField(null=True, blank=True, default=100)
     duration = models.IntegerField(null=True, blank=True)
@@ -84,10 +84,10 @@ class Objective(HorillaModel):
         ("years", _("Years")),
     )
     title = models.CharField(
-        null=False, blank=False, max_length=100, verbose_name="Title"
+        null=False, blank=False, max_length=2550, verbose_name="Title"
     )
     description = models.TextField(
-        blank=False, null=False, max_length=255, verbose_name="Description"
+        blank=False, null=False, max_length=2550, verbose_name="Description"
     )
     managers = models.ManyToManyField(
         Employee, related_name="objective", blank=True, verbose_name="Managers"
@@ -105,7 +105,7 @@ class Objective(HorillaModel):
         verbose_name="Default Key results",
     )
     duration_unit = models.CharField(
-        max_length=20,
+        max_length=2550,
         choices=DURATION_UNIT,
         null=True,
         blank=True,
@@ -165,13 +165,13 @@ class EmployeeObjective(HorillaModel):
     objective = models.CharField(
         null=True,
         blank=True,
-        max_length=100,
+        max_length=2550,
         verbose_name="Title",
     )
     objective_description = models.TextField(
         blank=True,
         null=True,
-        max_length=255,
+        max_length=2550,
         verbose_name="Description",
     )
     created_at = models.DateField(auto_now_add=True)
@@ -201,7 +201,7 @@ class EmployeeObjective(HorillaModel):
     start_date = models.DateField(null=False, blank=False)
     end_date = models.DateField(null=False, blank=False)
     status = models.CharField(
-        max_length=20,
+        max_length=2550,
         choices=STATUS_CHOICES,
         null=False,
         blank=False,
@@ -257,7 +257,7 @@ class EmployeeObjective(HorillaModel):
 class Comment(models.Model):
     """comments for objectives"""
 
-    comment = models.CharField(max_length=150)
+    comment = models.CharField(max_length=2550)
     employee_id = models.ForeignKey(
         Employee,
         on_delete=models.DO_NOTHING,
@@ -298,8 +298,8 @@ class EmployeeKeyResult(models.Model):
         ("Not Started", _("Not Started")),
     )
 
-    key_result = models.CharField(max_length=60, null=True, blank=True)
-    key_result_description = models.TextField(blank=True, null=True, max_length=255)
+    key_result = models.CharField(max_length=2550, null=True, blank=True)
+    key_result_description = models.TextField(blank=True, null=True, max_length=2550)
     employee_objective_id = models.ForeignKey(
         EmployeeObjective,
         null=True,
@@ -316,10 +316,10 @@ class EmployeeKeyResult(models.Model):
         on_delete=models.PROTECT,
     )
     progress_type = models.CharField(
-        max_length=60, null=True, blank=True, choices=PROGRESS_CHOICES
+        max_length=2550, null=True, blank=True, choices=PROGRESS_CHOICES
     )
     status = models.CharField(
-        max_length=20,
+        max_length=2550,
         choices=STATUS_CHOICES,
         null=True,
         blank=True,
@@ -437,7 +437,7 @@ class QuestionTemplate(HorillaModel):
     """question template creation"""
 
     question_template = models.CharField(
-        max_length=10000, null=False, blank=False, unique=True, verbose_name="Title"
+        max_length=2550, null=False, blank=False, unique=True, verbose_name="Title"
     )
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
 
@@ -457,9 +457,9 @@ class Question(HorillaModel):
         ("4", _("Multi-choices")),
         ("5", _("Likert")),
     )
-    question = models.CharField(max_length=25000, null=False, blank=False)
+    question = models.CharField(max_length=2550, null=False, blank=False)
     question_type = models.CharField(
-        choices=QUESTION_TYPE_CHOICE, max_length=10000, null=True, blank=True
+        choices=QUESTION_TYPE_CHOICE, max_length=2550, null=True, blank=True
     )
     template_id = models.ForeignKey(
         QuestionTemplate,
@@ -484,10 +484,10 @@ class QuestionOptions(HorillaModel):
         null=True,
         blank=True,
     )
-    option_a = models.CharField(max_length=25000, null=True, blank=True)
-    option_b = models.CharField(max_length=25000, null=True, blank=True)
-    option_c = models.CharField(max_length=25000, null=True, blank=True)
-    option_d = models.CharField(max_length=25000, null=True, blank=True)
+    option_a = models.CharField(max_length=2550, null=True, blank=True)
+    option_b = models.CharField(max_length=2550, null=True, blank=True)
+    option_c = models.CharField(max_length=2550, null=True, blank=True)
+    option_d = models.CharField(max_length=2550, null=True, blank=True)
     objects = HorillaCompanyManager("question_id__template_id__company_id")
 
 
@@ -507,7 +507,7 @@ class Feedback(HorillaModel):
         ("years", _("Years")),
     )
     review_cycle = models.CharField(
-        max_length=10000, null=False, blank=False, verbose_name=_("Title")
+        max_length=2550, null=False, blank=False, verbose_name=_("Title")
     )
     manager_id = models.ForeignKey(
         Employee,
@@ -556,7 +556,7 @@ class Feedback(HorillaModel):
         verbose_name=_("Question Template"),
     )
     status = models.CharField(
-        max_length=50, choices=STATUS_CHOICES, default="Not Started"
+        max_length=2550, choices=STATUS_CHOICES, default="Not Started"
     )
     archive = models.BooleanField(null=True, blank=True, default=False)
     start_date = models.DateField(null=False, blank=False, verbose_name=_("Start Date"))
@@ -571,7 +571,7 @@ class Feedback(HorillaModel):
         blank=True, null=True, verbose_name=_("Cycle Period")
     )
     cyclic_feedback_period = models.CharField(
-        max_length=50, choices=PERIOD, blank=True, null=True
+        max_length=2550, choices=PERIOD, blank=True, null=True
     )
     cyclic_next_start_date = models.DateField(null=True, blank=True)
     cyclic_next_end_date = models.DateField(null=True, blank=True)
@@ -643,9 +643,9 @@ class AnonymousFeedback(models.Model):
         ("department", _("Department")),
         ("job_position", _("Job Position")),
     )
-    feedback_subject = models.CharField(max_length=100, null=False, blank=False)
+    feedback_subject = models.CharField(max_length=2550, null=False, blank=False)
     based_on = models.CharField(
-        max_length=50, choices=BASED_ON_CHOICES, default="general"
+        max_length=2550, choices=BASED_ON_CHOICES, default="general"
     )
     employee_id = models.ForeignKey(
         Employee,
@@ -676,7 +676,7 @@ class AnonymousFeedback(models.Model):
     anonymous_feedback_id = models.CharField(
         max_length=10, null=True, blank=False, editable=False
     )
-    feedback_description = models.TextField(null=True, blank=True, max_length=255)
+    feedback_description = models.TextField(null=True, blank=True, max_length=2550)
     objects = models.Manager()
 
     def __str__(self) -> str:
@@ -712,7 +712,7 @@ class AnonymousFeedback(models.Model):
 class Answer(models.Model):
     """feedback answer model"""
 
-    answer = models.JSONField(max_length=200, null=True, blank=True)
+    answer = models.JSONField(max_length=2550, null=True, blank=True)
     question_id = models.ForeignKey(
         Question,
         on_delete=models.DO_NOTHING,
@@ -747,7 +747,7 @@ class KeyResultFeedback(models.Model):
     employee_id = models.ForeignKey(
         Employee, on_delete=models.DO_NOTHING, related_name="employee_key_result"
     )
-    answer = models.JSONField(max_length=200, null=True, blank=True)
+    answer = models.JSONField(max_length=2550, null=True, blank=True)
     key_result_id = models.ForeignKey(
         EmployeeKeyResult,
         related_name="key_result_feedback",
@@ -759,7 +759,7 @@ class KeyResultFeedback(models.Model):
 
 
 class Meetings(HorillaModel):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=2550)
     date = models.DateTimeField(null=True, blank=True)
     employee_id = models.ManyToManyField(
         Employee,
@@ -815,7 +815,7 @@ class Meetings(HorillaModel):
 class MeetingsAnswer(models.Model):
     """feedback answer model"""
 
-    answer = models.JSONField(max_length=20000, null=True, blank=True)
+    answer = models.JSONField(max_length=2550, null=True, blank=True)
     question_id = models.ForeignKey(
         Question,
         on_delete=models.DO_NOTHING,
@@ -850,8 +850,8 @@ class EmployeeBonusPoint(HorillaModel):
         verbose_name="Employee",
     )
     bonus_point = models.IntegerField(default=0)
-    instance = models.CharField(max_length=150, null=True, blank=True)
-    based_on = models.CharField(max_length=150)
+    instance = models.CharField(max_length=2550, null=True, blank=True)
+    based_on = models.CharField(max_length=2550)
     bonus_point_id = models.ForeignKey(
         BonusPoint,
         null=True,
@@ -920,16 +920,16 @@ class BonusPointSetting(models.Model):
         ("members", _("Members")),
         ("managers", _("Managers")),
     ]
-    model = models.CharField(max_length=100, choices=MODEL_CHOICES, null=False)
+    model = models.CharField(max_length=2550, choices=MODEL_CHOICES, null=False)
     applicable_for = models.CharField(
-        max_length=50, choices=APPLECABLE_FOR, null=True, blank=True
+        max_length=2550, choices=APPLECABLE_FOR, null=True, blank=True
     )
-    bonus_for = models.CharField(max_length=25, choices=BONUS_FOR)
-    field_1 = models.CharField(max_length=25, choices=FIELD_1, null=True, blank=True)
+    bonus_for = models.CharField(max_length=2550, choices=BONUS_FOR)
+    field_1 = models.CharField(max_length=2550, choices=FIELD_1, null=True, blank=True)
     conditions = models.CharField(
-        max_length=25, choices=CONDITIONS, null=True, blank=True
+        max_length=2550, choices=CONDITIONS, null=True, blank=True
     )
-    field_2 = models.CharField(max_length=25, choices=FIELD_2, null=True, blank=True)
+    field_2 = models.CharField(max_length=2550, choices=FIELD_2, null=True, blank=True)
     points = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_active = models.BooleanField(default=True)
 
