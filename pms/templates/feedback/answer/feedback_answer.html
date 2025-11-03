@@ -4,6 +4,7 @@
 {% load pmsfilters %}
 
 {% block content %}
+
 <div class="oh-wrapper oh-card--w-resp-75">
   <!--feedback answer form -->
   <form action="{% url 'feedback-answer-post' id=feedback.id %}" method="post">
@@ -40,8 +41,9 @@
             {# ---- TEXT (type '1') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '1' %}
-                <input type="text" class="oh-input w-100" name="answer{{q.id}}" 
-                       value="{{ existing_answers|get:q.id|default:'' }}" required />
+                 <textarea
+                  class="oh-input w-100" name="answer{{ q.id }}" 
+                  required></textarea>
               {% endif %}
             {% endfor %}
 
