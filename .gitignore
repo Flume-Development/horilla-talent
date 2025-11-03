@@ -202,3 +202,5 @@ talentenv/bin/svg2pdf
 talentenv/bin/vba_extract.py
 talentenv/bin/xhtml2pdf
 talentenv/share/man/man1/svg2pdf.1
+
+horilla/locale

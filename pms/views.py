@@ -1854,7 +1854,7 @@ def feedback_detailed_view_answer(request, id, emp_id):
 @login_required
 def feedback_answer_get(request, id, **kwargs):
     """
-    This view is used to render the feedback questions ,
+    This view is used to render the feedback questions and pre-populate answers (if they exist).,
     Args:
         id(int) : primarykey of the feedback.
     Returns:
@@ -1872,12 +1872,10 @@ def feedback_answer_get(request, id, **kwargs):
     if feedback.end_date and feedback.end_date < datetime.date.today():
         messages.info(request, _("Feedback is due"))
         return redirect(feedback_list_view)
+    
     user = request.user
     employee = Employee.objects.filter(employee_user_id=user).first()
-    answer = Answer.objects.filter(feedback_id=feedback, employee_id=employee)
-    question_template = feedback.question_template_id
-    questions = question_template.question.all()
-    options = QuestionOptions.objects.all()
+
     feedback_employees = (
         [feedback.employee_id]
         + [feedback.manager_id]
@@ -1889,24 +1887,51 @@ def feedback_answer_get(request, id, **kwargs):
         messages.info(request, _("You are not allowed to answer"))
         return redirect(feedback_list_view)
 
+    # Questions
+    question_template = feedback.question_template_id
+    questions = question_template.question.all()
+    options = QuestionOptions.objects.all()
+
+    # Answers
+    existing_answers = Answer.objects.filter(feedback_id=feedback, employee_id=employee)
+    existing_answers_dict = {
+        ans.question_id.id: ans.answer.get("answer") for ans in existing_answers
+    }
+
+    # Fetch existing key result feedbacks
+    existing_keyresults = KeyResultFeedback.objects.filter(
+        feedback_id=feedback, employee_id=employee
+    )
+    existing_keyresults_dict = {
+        kr.key_result_id.id: kr.answer.get("answer") for kr in existing_keyresults
+    }
+
+
     # Employee does not have an answer object
-    for employee in feedback_employees:
-        has_answer = Answer.objects.filter(
-            employee_id=employee, feedback_id=feedback
-        ).exists()
-    if has_answer:
-        feedback.status = "Closed"
-        feedback.save()
+    # for employee in feedback_employees:
+    #     has_answer = Answer.objects.filter(
+    #         employee_id=employee, feedback_id=feedback
+    #     ).exists()
+
+    # if has_answer:
+    #     feedback.status = "Closed"
+    #     feedback.save()
 
     # Check if the feedback has already been answered
-    if answer:
-        messages.info(request, _("Feedback already answered"))
+    if existing_answers and feedback.status == "Closed":
+        messages.info(request, _("Feedback already submitted."))
         return redirect(feedback_list_view)
 
     context = {
         "questions": questions,
         "options": options,
         "feedback": feedback,
+        "rating_values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        "likert_values": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
+        "keyresult_values": ["Perfect", "Good", "Average", "Bad"],
+        "question_options": ["option_a", "option_b", "option_c", "option_d"],
+        "existing_answers": existing_answers_dict,
+        "existing_keyresults": existing_keyresults_dict,
     }
 
     return render(request, "feedback/answer/feedback_answer.html", context)
@@ -1916,6 +1941,10 @@ def feedback_answer_get(request, id, **kwargs):
 def feedback_answer_post(request, id):
     """
     This view is used to create feedback answer ,
+
+    - 'Save': just saves data and keeps editable = True
+    - 'Submit': saves data and locks the feedback (editable = False)
+
     Args:
         id(int) : primarykey of the feedback.
     Returns:
@@ -1929,31 +1958,70 @@ def feedback_answer_post(request, id):
     questions = question_template.question.all()
 
     if request.method == "POST":
+        action = request.POST.get("action")  # 'save' or 'submit'
+
+        logger.info(f'Action = {action}')
+        print(f'Action = {action}')
+
         for question in questions:
-            if request.POST.get(f"answer{question.id}"):
-                answer = request.POST.get(f"answer{question.id}")
-                Answer.objects.get_or_create(
-                    answer={"answer": answer},
+            answer_value = request.POST.get(f"answer{question.id}")
+
+            if answer_value:
+                existing_answer = Answer.objects.filter(
                     question_id=question,
                     feedback_id=feedback,
                     employee_id=employee,
-                )
-                feedback.status = "On Track"
-                feedback.save()
+                ).first()
+
+                if existing_answer:
+                    existing_answer.answer = {"answer": answer_value}
+                    existing_answer.save()
+                else:
+                    Answer.objects.create(
+                        question_id=question,
+                        feedback_id=feedback,
+                        employee_id=employee,
+                        answer={"answer": answer_value},
+                    )
+
         for key_result in feedback.employee_key_results_id.all():
-            if request.POST.get(f"key_result{key_result.id}"):
-                answer = request.POST.get(f"key_result{key_result.id}")
-                keyresult, create = KeyResultFeedback.objects.get_or_create(
-                    answer={"answer": answer},
+            kr_value = request.POST.get(f"key_result{key_result.id}")
+        
+            if kr_value:
+                existing_kr_answer = KeyResultFeedback.objects.filter(
                     key_result_id=key_result,
                     feedback_id=feedback,
                     employee_id=request.user.employee_get,
                 )
-        messages.success(
-            request,
-            _("Feedback %(review_cycle)s has been answered successfully!.")
-            % {"review_cycle": feedback.review_cycle},
-        )
+
+                if existing_kr_answer:
+                    existing_kr_answer.answer = {"answer": kr_value}
+                    existing_kr_answer.save()
+                else:
+                    KeyResultFeedback.objects.create(
+                        answer={"answer": kr_value},
+                        key_result_id=key_result,
+                        feedback_id=feedback,
+                        employee_id=request.user.employee_get,
+                    )
+
+        # Behavior depends on which button was pressed
+        if action == "save":
+            feedback.status = "On Track"
+            messages.success(
+                request,
+                _("Feedback %(review_cycle)s has been saved. You may still edit your feedback") % {"review_cycle": feedback.review_cycle},
+            )
+
+        else:
+            feedback.status = "Closed"
+            messages.success(
+                request,
+                _("Feedback %(review_cycle)s has been submitted successfully!") % {"review_cycle": feedback.review_cycle},
+            )
+
+        feedback.save()
+        
         return redirect(feedback_list_view)
 
 

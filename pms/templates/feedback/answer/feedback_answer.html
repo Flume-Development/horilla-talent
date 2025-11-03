@@ -1,9 +1,10 @@
 {% extends 'index.html' %}
 {% load static i18n %}
 {% load i18n %}
+{% load pmsfilters %}
 
 {% block content %}
-<div class="oh-wrapper oh-card--w-resp-75 ">
+<div class="oh-wrapper oh-card--w-resp-75">
   <!--feedback answer form -->
   <form action="{% url 'feedback-answer-post' id=feedback.id %}" method="post">
     {% csrf_token %}
@@ -14,72 +15,50 @@
         </h1>
       </div>
 
-      <div class="oh-card mb-3 ">
+      <div class="oh-card mb-3">
 
-        {# ---- GROUP QUESTIONS BY THEIR TEXT SO RATING+TEXT ARE TOGETHER ---- #}
         {% regroup questions by question as question_groups %}
 
         {% for group in question_groups %}
           <div class="d-block mb-3">
             <span class="oh-label oh-label--question">{{ forloop.counter }}. {{ group.grouper }}</span>
 
-            {# ---- RATING (type '2') IF PRESENT ---- #}
+            {# ---- RATING (type '2') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '2' %}
                 <div class="oh-rate mt-2 mb-2">
-                  <input type="radio" id="star10{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="10" />
-                  <label for="star10{{q.id}}" title="10 {% trans 'Stars' %}">10 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star9{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="9" />
-                  <label for="star9{{q.id}}" title="9 {% trans 'Stars' %}">9 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star8{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="8" />
-                  <label for="star8{{q.id}}" title="8 {% trans 'Stars' %}">8 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star7{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="7" />
-                  <label for="star7{{q.id}}" title="7 {% trans 'Stars' %}">7 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star6{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="6" />
-                  <label for="star6{{q.id}}" title="6 {% trans 'Stars' %}">6 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star5{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="5" />
-                  <label for="star5{{q.id}}" title="5 {% trans 'Stars' %}">5 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star4{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="4" />
-                  <label for="star4{{q.id}}" title="4 {% trans 'Stars' %}">4 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star3{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="3" />
-                  <label for="star3{{q.id}}" title="3 {% trans 'Stars' %}">3 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star2{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="2" />
-                  <label for="star2{{q.id}}" title="2 {% trans 'Stars' %}">2 {% trans "Stars" %}</label>
-
-                  <input type="radio" id="star1{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="1" />
-                  <label for="star1{{q.id}}" title="1 {% trans 'Star' %}">1 {% trans "Star" %}</label>
+                  {% for i in rating_values %}
+                    <input type="radio" id="star{{i}}{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="{{i}}"
+                           {% if existing_answers|get:q.id == i|stringformat:"s" %}checked{% endif %} />
+                    <label for="star{{i}}{{q.id}}" title="{{i}} {% trans 'Stars' %}">{{i}} {% trans "Stars" %}</label>
+                  {% endfor %}
                 </div>
                 <span id="rating-radio-error"></span>
               {% endif %}
             {% endfor %}
 
-            {# ---- TEXT (type '1') IF PRESENT ---- #}
+            {# ---- TEXT (type '1') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '1' %}
-                <input type="text" class="oh-input w-100" name="answer{{q.id}}" required />
+                <input type="text" class="oh-input w-100" name="answer{{q.id}}" 
+                       value="{{ existing_answers|get:q.id|default:'' }}" required />
               {% endif %}
             {% endfor %}
 
-            {# ---- BOOLEAN (type '3') IF YOU EVER PAIR IT UNDER SAME TEXT ---- #}
+            {# ---- BOOLEAN (type '3') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '3' %}
                 <div class="oh-input__group mt-2">
                   <div class="oh-input-picker-group">
                     <label class="oh-input-picker oh-input-picker--likert oh-input-picker--4">
                       {% trans "Yes" %}
-                      <input type="radio" name="answer{{q.id}}" value="yes" />
+                      <input type="radio" name="answer{{q.id}}" value="yes"
+                             {% if existing_answers|get:q.id == 'yes' %}checked{% endif %} />
                     </label>
                     <label class="oh-input-picker oh-input-picker--likert oh-input-picker--1">
                       {% trans "No" %}
-                      <input type="radio" name="answer{{q.id}}" value="no" />
+                      <input type="radio" name="answer{{q.id}}" value="no"
+                             {% if existing_answers|get:q.id == 'no' %}checked{% endif %} />
                     </label>
                   </div>
                 </div>
@@ -141,30 +120,18 @@
               {% if q.question_type == '5' %}
                 <div class="d-block mt-2">
                   <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
-                    <div class="oh-input-picker oh-input-picker--likert oh-input-picker--1">
-                      {% trans "Strongly Disagree" %}
-                      <input type="radio" name="answer{{q.id}}" value="Strongly Disagree" />
-                    </div>
-                    <div class="oh-input-picker oh-input-picker--likert oh-input-picker--2">
-                      {% trans "Disagree" %}
-                      <input type="radio" name="answer{{q.id}}" value="Disagree" />
-                    </div>
-                    <div class="oh-input-picker oh-input-picker--likert oh-input-picker--3">
-                      {% trans "Neutral" %}
-                      <input type="radio" name="answer{{q.id}}" value="Neutral" />
-                    </div>
-                    <div class="oh-input-picker oh-input-picker--likert oh-input-picker--4">
-                      {% trans "Agree" %}
-                      <input type="radio" name="answer{{q.id}}" value="Agree" />
-                    </div>
-                    <div class="oh-input-picker oh-input-picker--likert oh-input-picker--5">
-                      {% trans "Strongly Agree" %}
-                      <input type="radio" name="answer{{q.id}}" value="Strongly Agree" />
-                    </div>
+                    {% for val in likert_values %}
+                      <div class="oh-input-picker oh-input-picker--likert oh-input-picker--{{ forloop.counter }}  {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}oh-input-picker--selected{% endif %}">
+                        {% trans val %}
+                        <input type="radio" name="answer{{q.id}}" value="{{ val }}"
+                               {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}checked{% endif %} />
+                      </div>
+                    {% endfor %}
                   </div>
                 </div>
               {% endif %}
             {% endfor %}
+
           </div>
         {% endfor %}
 
@@ -183,31 +150,26 @@
             <div class="d-block">
               <span class="oh-label oh-label--question">{{ forloop.counter }}. {{ key_result.key_result }}</span>
               <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
-                <div class="oh-input-picker oh-input-picker--likert oh-input-picker--4">
-                  {% trans "Perfect" %}
-                  <input type="radio" name="key_result{{key_result.id}}" value="Perfect" required />
-                </div>
-                <div class="oh-input-picker oh-input-picker--likert oh-input-picker--3">
-                  {% trans "Good" %}
-                  <input type="radio" name="key_result{{key_result.id}}" value="Good" />
-                </div>
-                <div class="oh-input-picker oh-input-picker--likert oh-input-picker--2">
-                  {% trans "Average" %}
-                  <input type="radio" name="key_result{{key_result.id}}" value="Average" />
-                </div>
-                <div class="oh-input-picker oh-input-picker--likert oh-input-picker--1">
-                  {% trans "Bad" %}
-                  <input type="radio" name="key_result{{key_result.id}}" value="Bad" />
-                </div>
+                {% for val in keyresult_values %}
+                  <div class="oh-input-picker oh-input-picker--likert oh-input-picker--{{ forloop.counter }} {% if existing_keyresults|get:key_result.id == val %}oh-input-picker--selected{% endif %}"">
+                    {% trans val %}
+                    <input type="radio" name="key_result{{key_result.id}}" value="{{val}}" required
+                           {% if existing_keyresults|get:key_result.id == val %}checked{% endif %} />
+                  </div>
+                {% endfor %}
               </div>
             </div>
           {% endfor %}
         </div>
       {% endif %}
 
-      <div class="oh-modal__dialog-footer mb-3 ">
-        <button type="submit" class="oh-btn oh-btn--secondary oh-btn--shadow ">
+      <div class="oh-modal__dialog-footer mb-3 flex gap-3">
+        <button type="submit" name="action" value="save" class="oh-btn oh-btn--secondary oh-btn--shadow">
           {% trans "Save" %}
+        </button>
+
+        <button type="submit" name="action" value="submit" class="oh-btn oh-btn--primary oh-btn--shadow">
+          {% trans "Submit" %}
         </button>
       </div>
     </div>

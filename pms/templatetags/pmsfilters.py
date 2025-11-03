@@ -124,3 +124,8 @@ def is_anonymous_feedback_owner(user, feedback):
     if str(user.id) == feedback.anonymous_feedback_id:
         return True
     return False
+
+@register.filter(name="get")
+def get(d, key):
+    return d.get(key)
+
