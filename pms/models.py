@@ -437,7 +437,7 @@ class QuestionTemplate(HorillaModel):
     """question template creation"""
 
     question_template = models.CharField(
-        max_length=100, null=False, blank=False, unique=True, verbose_name="Title"
+        max_length=10000, null=False, blank=False, unique=True, verbose_name="Title"
     )
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
 
@@ -457,9 +457,9 @@ class Question(HorillaModel):
         ("4", _("Multi-choices")),
         ("5", _("Likert")),
     )
-    question = models.CharField(max_length=250, null=False, blank=False)
+    question = models.CharField(max_length=25000, null=False, blank=False)
     question_type = models.CharField(
-        choices=QUESTION_TYPE_CHOICE, max_length=100, null=True, blank=True
+        choices=QUESTION_TYPE_CHOICE, max_length=10000, null=True, blank=True
     )
     template_id = models.ForeignKey(
         QuestionTemplate,
@@ -484,10 +484,10 @@ class QuestionOptions(HorillaModel):
         null=True,
         blank=True,
     )
-    option_a = models.CharField(max_length=250, null=True, blank=True)
-    option_b = models.CharField(max_length=250, null=True, blank=True)
-    option_c = models.CharField(max_length=250, null=True, blank=True)
-    option_d = models.CharField(max_length=250, null=True, blank=True)
+    option_a = models.CharField(max_length=25000, null=True, blank=True)
+    option_b = models.CharField(max_length=25000, null=True, blank=True)
+    option_c = models.CharField(max_length=25000, null=True, blank=True)
+    option_d = models.CharField(max_length=25000, null=True, blank=True)
     objects = HorillaCompanyManager("question_id__template_id__company_id")
 
 
@@ -507,7 +507,7 @@ class Feedback(HorillaModel):
         ("years", _("Years")),
     )
     review_cycle = models.CharField(
-        max_length=100, null=False, blank=False, verbose_name=_("Title")
+        max_length=10000, null=False, blank=False, verbose_name=_("Title")
     )
     manager_id = models.ForeignKey(
         Employee,
@@ -815,7 +815,7 @@ class Meetings(HorillaModel):
 class MeetingsAnswer(models.Model):
     """feedback answer model"""
 
-    answer = models.JSONField(max_length=200, null=True, blank=True)
+    answer = models.JSONField(max_length=20000, null=True, blank=True)
     question_id = models.ForeignKey(
         Question,
         on_delete=models.DO_NOTHING,

@@ -7337,7 +7337,7 @@ msgstr "Update"
 #: .\base\views.py:6667 .\templates\dashboard_tile_container.html:9
 #, fuzzy
 #| msgid "employee"
-msgid "Offline Employees"
+msgid "Offline Employees1"
 msgstr "Employee"
 
 #: .\attendance\templates\attendance\dashboard\dashboard.html:123

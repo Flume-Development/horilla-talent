@@ -72,7 +72,7 @@ class ObjectiveForm(BaseForm):
 
     start_date = forms.DateField(
         required=False,
-        widget=forms.DateInput(attrs={"class": "oh-input w-100", "type": "date"}),
+        widget=forms.DateInput(attrs={"class": "oh-input w-10000", "type": "date"}),
     )
     add_assignees = forms.BooleanField(required=False)
     archive = forms.BooleanField(required=False)
@@ -830,7 +830,7 @@ class QuestionForm(ModelForm):
     question = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "oh-input oh-input--small oh-input--res-height w-100",
+                "class": "oh-input oh-input--small oh-input--res-height w-10000",
                 "placeholder": _("Enter question"),
             }
         ),
@@ -841,30 +841,30 @@ class QuestionForm(ModelForm):
     )
     option_a = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "oh-input oh-input--res-height w-100", "type": "text"}
+            attrs={"class": "oh-input oh-input--res-height w-10000", "type": "text"}
         ),
-        max_length=240,
+        max_length=24000,
         required=False,
     )
     option_b = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "oh-input oh-input--res-height w-100", "type": "text"}
+            attrs={"class": "oh-input oh-input--res-height w-10000", "type": "text"}
         ),
-        max_length=240,
+        max_length=24000,
         required=False,
     )
     option_c = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "oh-input oh-input--res-height w-100", "type": "text"}
+            attrs={"class": "oh-input oh-input--res-height w-10000", "type": "text"}
         ),
-        max_length=240,
+        max_length=24000,
         required=False,
     )
     option_d = forms.CharField(
         widget=forms.TextInput(
-            attrs={"class": "oh-input oh-input--res-height w-100", "type": "text"}
+            attrs={"class": "oh-input oh-input--res-height w-10000", "type": "text"}
         ),
-        max_length=240,
+        max_length=24000,
         required=False,
     )
 
@@ -878,7 +878,7 @@ class QuestionForm(ModelForm):
         # widgets = {
         #     "question_type": forms.Select(
         #         attrs={
-        #             "class": "oh-select oh-select--sm oh-select-no-search oh-select--qa-change w-100",
+        #             "class": "oh-select oh-select--sm oh-select-no-search oh-select--qa-change w-10000",
         #             "required": True,
         #         }
         #     )
@@ -951,7 +951,7 @@ class PeriodForm(HorillaModelForm):
         exclude = ["is_active"]
         widgets = {
             "period_name": forms.TextInput(
-                attrs={"placeholder": "Q1.", "class": "oh-input w-100"}
+                attrs={"placeholder": "Q1.", "class": "oh-input w-10000"}
             ),
         }
 
@@ -967,7 +967,7 @@ class PeriodForm(HorillaModelForm):
         self.fields["company_id"].required = True
         self.fields["company_id"].widget.attrs.update(
             {
-                "class": "oh-select oh-select-2 w-100",
+                "class": "oh-select oh-select-2 w-10000",
             }
         )
 
@@ -998,7 +998,7 @@ class MeetingsForm(BaseForm):
         widget=forms.DateTimeInput(
             format="%Y-%m-%dT%H:%M",
             attrs={
-                "class": "oh-input w-100",
+                "class": "oh-input w-10000",
                 "type": "datetime-local",
             },
         ),

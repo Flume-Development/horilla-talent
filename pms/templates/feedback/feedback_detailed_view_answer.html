@@ -1,139 +1,123 @@
 {% load i18n %}
-{% for answer in answers %}
-<li class="oh-activity-sidebar__qa-item">
-    <span class="oh-activity-sidebar__q"> {{forloop.counter}}. {{answer.question_id.question}}?</span>
 
-    {% if answer.question_id.question_type == '1' %}
-      <span class="oh-activity-sidebar__a">{{ answer.answer.answer}}.</span>
-    {% endif %}
+{# Group answers that share the same question text #}
+{% regroup answers by question_id.question as answer_groups %}
 
-    {% if answer.question_id.question_type == '2' %}
-      <div class="d-block mb-0">
-        <div class="oh-rate">
-          <input type="radio" id="star5" value="5" disabled {% if answer.answer.answer == '5' %} checked {% endif %} />
-          <label for="star5" title="5 Stars">5 {% trans "Stars" %}</label>
-          <input type="radio" id="star4" value="4" disabled  {% if answer.answer.answer == '4' %} checked {% endif %} />
-          <label for="star4" title="4 Stars">4 {% trans "Stars" %}</label>
-          <input type="radio" id="star3" value="3" disabled  {% if answer.answer.answer == '3' %} checked {% endif %} />
-          <label for="star3" title="3 Stars">3 {% trans "Stars" %}</label>
-          <input type="radio" id="star2" value="2" disabled  {% if answer.answer.answer == '2' %} checked {% endif %}  />
-          <label for="star2" title="2 Stars">2 {% trans "Stars" %}</label>
-          <input type="radio" id="star1" value="1" disabled  {% if answer.answer.answer == '1' %} checked {% endif %} />
-          <label for="star1" title="1 Star">1 {% trans "Star" %}</label>
-        </div>
-      </div>
-    {% endif %}
+{% for group in answer_groups %}
+  <li class="oh-activity-sidebar__qa-item">
+    <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}?</span>
 
-    {% if answer.question_id.question_type == '3' %}
-      <div class="oh-input__group">
-        <div class="oh-input-picker-group">
-          <div class="oh-input-picker   oh-input-picker--selected boolean-colour ">
-            {{answer.answer.answer}}
-            <input type="radio" selected />
+    {# --- RATING (type '2') if present --- #}
+    {% for answer in group.list %}
+      {% if answer.question_id.question_type == '2' %}
+        <div class="d-block mb-0">
+          <div class="oh-rate">
+            <input type="radio" id="star10{{answer.id}}" value="10" disabled {% if answer.answer.answer == '10' %}checked{% endif %} />
+            <label for="star10{{answer.id}}" title="10 Stars">10 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star9{{answer.id}}"  value="9"  disabled {% if answer.answer.answer == '9' %}checked{% endif %} />
+            <label for="star9{{answer.id}}"  title="9 Stars">9 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star8{{answer.id}}"  value="8"  disabled {% if answer.answer.answer == '8' %}checked{% endif %} />
+            <label for="star8{{answer.id}}"  title="8 Stars">8 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star7{{answer.id}}"  value="7"  disabled {% if answer.answer.answer == '7' %}checked{% endif %} />
+            <label for="star7{{answer.id}}"  title="7 Stars">7 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star6{{answer.id}}"  value="6"  disabled {% if answer.answer.answer == '6' %}checked{% endif %} />
+            <label for="star6{{answer.id}}"  title="6 Stars">6 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star5{{answer.id}}"  value="5"  disabled {% if answer.answer.answer == '5' %}checked{% endif %} />
+            <label for="star5{{answer.id}}"  title="5 Stars">5 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star4{{answer.id}}"  value="4"  disabled {% if answer.answer.answer == '4' %}checked{% endif %} />
+            <label for="star4{{answer.id}}"  title="4 Stars">4 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star3{{answer.id}}"  value="3"  disabled {% if answer.answer.answer == '3' %}checked{% endif %} />
+            <label for="star3{{answer.id}}"  title="3 Stars">3 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star2{{answer.id}}"  value="2"  disabled {% if answer.answer.answer == '2' %}checked{% endif %} />
+            <label for="star2{{answer.id}}"  title="2 Stars">2 {% trans "Stars" %}</label>
+
+            <input type="radio" id="star1{{answer.id}}"  value="1"  disabled {% if answer.answer.answer == '1' %}checked{% endif %} />
+            <label for="star1{{answer.id}}"  title="1 Star">1 {% trans "Star" %}</label>
           </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    {% endfor %}
 
-    {% if answer.question_id.question_type == '4' %}
-      <div class="d-block">
-        <ul class="oh-questions mt-2">
-          <li class="oh-questions__answer">
-            <div class="oh-radio">
-              <input type="radio" class="oh-radio  " id="answer1" name="answer{{q.id}}" value="{{option.option_a}}"
-                checked />
-              <span class="oh-radio__checkmark"></span>
-              <label class="oh-label" for="answer1"> {{answer.answer.answer}}</label>
+    {# --- TEXT (type '1') if present --- #}
+    {% for answer in group.list %}
+      {% if answer.question_id.question_type == '1' %}
+        <span class="oh-activity-sidebar__a d-block">{{ answer.answer.answer }}.</span>
+      {% endif %}
+    {% endfor %}
+
+    {# --- BOOLEAN (type '3') if present --- #}
+    {% for answer in group.list %}
+      {% if answer.question_id.question_type == '3' %}
+        <div class="oh-input__group">
+          <div class="oh-input-picker-group">
+            <div class="oh-input-picker oh-input-picker--selected boolean-colour">
+              {{ answer.answer.answer }}
+              <input type="radio" selected />
             </div>
-          </li>
-        </ul>
-      </div>
-    {% endif %}
-
-    {% if answer.question_id.question_type == '5' %}
-      <div class="d-block">
-        <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
-          <div class="oh-input-picker oh-input-picker--likert likert-colour oh-input-picker--selected ">
-            {{answer.answer.answer}}
           </div>
         </div>
-      </div>
-    {% endif %}
-  </li>
+      {% endif %}
+    {% endfor %}
 
+    {# --- MULTI-CHOICES (type '4') if present (display the chosen value) --- #}
+    {% for answer in group.list %}
+      {% if answer.question_id.question_type == '4' %}
+        <div class="d-block">
+          <ul class="oh-questions mt-2">
+            <li class="oh-questions__answer">
+              <div class="oh-radio">
+                <input type="radio" class="oh-radio" checked disabled />
+                <span class="oh-radio__checkmark"></span>
+                <label class="oh-label">{{ answer.answer.answer }}</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {# --- LIKERT (type '5') if present --- #}
+    {% for answer in group.list %}
+      {% if answer.question_id.question_type == '5' %}
+        <div class="d-block">
+          <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
+            <div class="oh-input-picker oh-input-picker--likert likert-colour oh-input-picker--selected">
+              {{ answer.answer.answer }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </li>
 {% endfor %}
+
 {% if kr_feedbacks %}
-<hr/>
+  <hr/>
   <span class="oh-activity-sidebar__q" style="font-size: medium;">{% trans "Key results" %}</span>
   {% for kr_feedback in kr_feedbacks %}
-  <li class="oh-activity-sidebar__qa-item">
-    <span class="oh-activity-sidebar__q"> {{forloop.counter}}. {{kr_feedback.key_result_id.key_result_id}}</span>
-    <div class="d-block">
-      <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
-        <div class="oh-input-picker oh-input-picker--likert oh-input-picker--selected
-          {% if kr_feedback.answer.answer == "Bad" %}
-            oh-input-picker--1
-          {% elif kr_feedback.answer.answer == "Average" %}
-            oh-input-picker--2
-          {% elif kr_feedback.answer.answer == "Good" %}
-            oh-input-picker--3
-          {% elif kr_feedback.answer.answer == "Perfect" %}
-            oh-input-picker--4
-          {% endif %}
-        "
-        >
-          {{ kr_feedback.answer.answer }}
+    <li class="oh-activity-sidebar__qa-item">
+      <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ kr_feedback.key_result_id.key_result_id }}</span>
+      <div class="d-block">
+        <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
+          <div class="oh-input-picker oh-input-picker--likert oh-input-picker--selected
+            {% if kr_feedback.answer.answer == 'Bad' %}oh-input-picker--1
+            {% elif kr_feedback.answer.answer == 'Average' %}oh-input-picker--2
+            {% elif kr_feedback.answer.answer == 'Good' %}oh-input-picker--3
+            {% elif kr_feedback.answer.answer == 'Perfect' %}oh-input-picker--4
+            {% endif %}">
+            {{ kr_feedback.answer.answer }}
+          </div>
         </div>
       </div>
-    </div>
-  </li>
+    </li>
   {% endfor %}
 {% endif %}
-
-<script>
-
-  $(document).ready(function () {
-      // answer color for likert
-      var booleanText = $('.boolean-colour').text().trim()
-      var booleanEl = $('.boolean-colour')
-      var red = "oh-input-picker--1"
-      var orange = "oh-input-picker--2"
-      var yellow = "oh-input-picker--3"
-      var light_green = "oh-input-picker--4"
-      var green = "oh-input-picker--5"
-
-      $('.likert-colour').each(function() {
-        var likertText = $(this).text().trim()
-
-        if (likertText === 'Strongly Agree'){
-          $(this).addClass(green)
-        }
-        else if (likertText === 'Agree'){
-          $(this).addClass(light_green)
-        }
-        else if (likertText === 'Neutral'){
-          $(this).addClass(yellow)
-        }
-        else if (likertText === 'Disagree'){
-          $(this).addClass(orange)
-        }
-        else if (likertText === 'Strongly Disagree'){
-          $(this).addClass(red)
-        }
-      });
-
-      // boolean text colour adding
-      $('.boolean-colour').each(function() {
-        var booleanText = $(this).text().trim()
-
-        if (booleanText === 'yes'){
-          $(this).addClass(green)
-        }
-        else if (booleanText === 'no'){
-          $(this).addClass(red)
-        }
-    })
-
-
-    });
-  </script>

@@ -6764,7 +6764,7 @@ def employee_chart_show(request):
         employee=request.user.employee_get
     )[0]
     charts = [
-        ("offline_employees", _("Offline Employees")),
+        ("offline_employees", _("Hello")),
         ("online_employees", _("Online Employees")),
         ("overall_leave_chart", _("Overall Leave Chart")),
         ("hired_candidates", _("Hired Candidates")),

@@ -16,6 +16,31 @@
                 <!--question type =  Rating-->
                 <div class="d-block mb-0">
                     <div class="oh-rate">
+                        <input type="radio" id="star10" value="10" disabled
+                        {% if answer.answer.answer == '10' %} checked {% endif %} />
+                        <label for="star10" title="10 Stars"
+                            >10 {% trans "Stars" %}</label
+                        >
+                        <input type="radio" id="star9" value="9" disabled
+                        {% if answer.answer.answer == '9' %} checked {% endif %} />
+                        <label for="star9" title="9 Stars"
+                            >9 {% trans "Stars" %}</label
+                        >
+                        <input type="radio" id="star8" value="8" disabled
+                        {% if answer.answer.answer == '8' %} checked {% endif %} />
+                        <label for="star8" title="8 Stars"
+                            >8 {% trans "Stars" %}</label
+                        >
+                        <input type="radio" id="star7" value="7" disabled
+                        {% if answer.answer.answer == '7' %} checked {% endif %} />
+                        <label for="star7" title="7 Stars"
+                            >7 {% trans "Stars" %}</label
+                        >
+                        <input type="radio" id="star6" value="6" disabled
+                        {% if answer.answer.answer == '6' %} checked {% endif %} />
+                        <label for="star6" title="6 Stars"
+                            >6 {% trans "Stars" %}</label
+                        >
                         <input type="radio" id="star5" value="5" disabled
                         {% if answer.answer.answer == '5' %} checked {% endif %} />
                         <label for="star5" title="5 Stars"

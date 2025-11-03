@@ -23,3 +23,13 @@
     padding-bottom: 38px;
     padding-left: 5px;
 }
+
+.oh-rate {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 2px;
+}
+.oh-rate input[type="radio"] { display: none; }
+.oh-rate label { cursor: default; color: #ccc; }
+.oh-rate label::before { content: "★"; }
+.oh-rate input[type="radio"]:checked ~ label { color: gold; }
