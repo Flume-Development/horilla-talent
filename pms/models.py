@@ -459,7 +459,7 @@ class Question(HorillaModel):
     )
     question = models.CharField(max_length=2550, null=True, blank=True, default='')
 
-    title = models.CharField(max_length=2550, null=False, blank=False, default='')
+    title = models.CharField(max_length=2550, null=True, blank=True, default='')
     description = models.CharField(max_length=2550, null=True, blank=True, default='')
     points = models.CharField(max_length=2550, null=True, blank=True, default='')
     footer = models.CharField(max_length=2550, null=True, blank=True, default='')

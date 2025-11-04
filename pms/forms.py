@@ -844,7 +844,7 @@ class QuestionForm(ModelForm):
                 "placeholder": _("Enter title"),
             }
         ),
-        required=True,
+        required=False,
     )
 
     description = forms.CharField(

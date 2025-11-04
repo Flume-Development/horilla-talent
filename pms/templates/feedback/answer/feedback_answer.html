@@ -26,8 +26,9 @@
 
             {# ---- RATING (type '2') ---- #}
             {% for q in group.list %}
+              {% if q.question_type == '2' %}
 
-              <div style="color: #545454;">
+               <div style="color: #545454;">
                 {% if q.title %}
                   <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
                 {% endif %}
@@ -49,7 +50,6 @@
                 {% endif %}
               </div>
 
-              {% if q.question_type == '2' %}
                 <div class="oh-rate mt-2 mb-2">
                   {% for i in rating_values %}
                     <input type="radio" id="star{{i}}{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="{{i}}"
