@@ -21,8 +21,8 @@
         {% regroup questions by title as question_groups %}
 
         {% for group in question_groups %}
-          <div class="d-block mb-3 border p-4" style="background-color: #fafafa; border-radius: 10px;">
-            <span class="oh-label oh-label--question">{{ forloop.counter }}.
+          <div class="d-block mb-3 p-4" style="background-color: #f9F9F9; border-radius: 10px;">
+            <!-- <span class="oh-label oh-label--question">{{ forloop.counter }}. -->
             </span>
 
             {# ---- RATING (type '2') ---- #}
@@ -31,7 +31,7 @@
 
                <div style="color: #545454;">
                 {% if q.title %}
-                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                  <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                 {% endif %}
                   
                 {% if q.description %}
@@ -66,7 +66,7 @@
               {% if q.question_type == '1' %}
                 <div style="color: #545454;">
                   {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                   {% endif %}
                     
                   {% if q.description %}
@@ -98,7 +98,7 @@
 
               <div style="color: #545454;">
                 {% if q.title %}
-                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                  <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                 {% endif %}
                   
                 {% if q.description %}
@@ -141,7 +141,7 @@
 
                 <div style="color: #545454;">
                   {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                   {% endif %}
                     
                   {% if q.description %}
@@ -214,7 +214,7 @@
 
                 <div style="color: #545454;">
                   {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                   {% endif %}
                     
                   {% if q.description %}

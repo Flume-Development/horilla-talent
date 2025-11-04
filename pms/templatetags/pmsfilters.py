@@ -138,6 +138,6 @@ def comma_to_list(value):
     """
     if not value:
         return ""
-    items = [item.strip() for item in value.split(",") if item.strip()]
+    items = [item.strip() for item in value.strip().split(",") if item.strip()]
     return "".join(f"<li>{item}</li>" for item in items)
 

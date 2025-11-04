@@ -7,7 +7,7 @@
   <div class="oh-activity-sidebar__body">
 
     {# Group answers by the visible question text so "1&2", "3&4" pair up #}
-    {% regroup answers by question_id.question as question_groups %}
+    {% regroup answers by question_id.title as question_groups %}
 
     <ol class="oh-activity-sidebar__qa-list" role="list">
       {% for group in question_groups %}
