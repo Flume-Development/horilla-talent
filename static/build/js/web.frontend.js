@@ -3712,7 +3712,7 @@ var Inputs = /*#__PURE__*/function () {
       // Hide Edit Button
       closestTargetEl.classList.add('d-none');
       // Inputs
-      var inputEls = parentEl.querySelectorAll("".concat(targetEl, " input"));
+      var inputEls = parentEl.querySelectorAll("".concat(targetEl, " input, textarea"));
       inputEls.forEach(function (element) {
         element.disabled = false;
       });
@@ -3765,7 +3765,7 @@ var Inputs = /*#__PURE__*/function () {
       var parentEl = closestTargetEl.closest('.oh-section-edit');
       parentEl.querySelector('.oh-btn--section-edit ').classList.remove('d-none');
       // Inputs
-      var inputEls = parentEl.querySelectorAll("input");
+      var inputEls = parentEl.querySelectorAll("input, textarea");
       inputEls.forEach(function (element) {
         element.disabled = true;
       });

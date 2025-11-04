@@ -56,7 +56,7 @@ class Inputs {
     // Hide Edit Button
     closestTargetEl.classList.add('d-none');
     // Inputs
-    let inputEls = parentEl.querySelectorAll(`${targetEl} input`);
+    let inputEls = parentEl.querySelectorAll(`${targetEl} input, textarea`);
     inputEls.forEach(function (element) {
       element.disabled = false;
     });
@@ -115,7 +115,7 @@ class Inputs {
       // Hide Edit Button
       closestTargetEl.classList.add('d-none');
       // Inputs
-      let inputEls = parentEl.querySelectorAll(`${targetEl} input`);
+      let inputEls = parentEl.querySelectorAll(`${targetEl} input, textarea`);
       inputEls.forEach(function (element) {
         element.disabled = false;
       });

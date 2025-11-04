@@ -48,6 +48,13 @@
                                     <div class="col-12">
                                         <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Title" %}</label>
                                         {% render_field form.title disabled="disabled" %}
+
+                                         <!-- {% if editing %}
+                                            {% render_field form.title disabled="true" %}
+                                        {% else %}
+                                            {% render_field form.title disabled="false" %}
+                                        {% endif %} -->
+
                                         
                                     </div>
 
