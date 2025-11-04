@@ -24,33 +24,31 @@
           <div class="d-block mb-3">
             <span class="oh-label oh-label--question">{{ forloop.counter }}. {{ group.grouper }}</span>
 
-             {% for question_item in group.list %}
-              <div style="color: #545454;">
-                {% if question_item.title %}
-                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ question_item.title }}</span>
-                {% endif %}
-                  
-                {% if question_item.description %}
-                  <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ question_item.description }}</span>
-                {% endif %}
-
-                {% if question_item.points %}
-                  <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ question_item.points|comma_to_list|safe }}</ul>
-                {% endif %}
-
-              <div class="border-bottom my-3"></div>
-
-                {% if question_item.footer %}
-                  <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
-                  <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ question_item.footer }}</span>
-                {% endif %}
-              </div>
-             {% endfor %}
-
-
             {# ---- RATING (type '2') ---- #}
             {% for q in group.list %}
+
+              <div style="color: #545454;">
+                {% if q.title %}
+                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                {% endif %}
+                  
+                {% if q.description %}
+                  <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
+                {% endif %}
+
+                {% if q.points %}
+                  <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                {% endif %}
+
+                <div class="border-bottom my-3"></div>
+
+                {% if q.footer %}
+                  <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                  <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
+                {% endif %}
+              </div>
+
               {% if q.question_type == '2' %}
                 <div class="oh-rate mt-2 mb-2">
                   {% for i in rating_values %}
@@ -65,7 +63,30 @@
 
             {# ---- TEXT (type '1') ---- #}
             {% for q in group.list %}
+
               {% if q.question_type == '1' %}
+                <div style="color: #545454;">
+                  {% if q.title %}
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                  {% endif %}
+                    
+                  {% if q.description %}
+                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
+                  {% endif %}
+
+                  {% if q.points %}
+                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                  {% endif %}
+
+                  <div class="border-bottom my-3"></div>
+
+                  {% if q.footer %}
+                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
+                  {% endif %}
+                </div>
+
                  <textarea
                   class="oh-input w-100" name="answer{{ q.id }}" 
                   required>{{existing_answers|get:q.id}}</textarea>
@@ -75,6 +96,29 @@
             {# ---- BOOLEAN (type '3') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '3' %}
+
+              <div style="color: #545454;">
+                {% if q.title %}
+                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                {% endif %}
+                  
+                {% if q.description %}
+                  <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
+                {% endif %}
+
+                {% if q.points %}
+                  <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                {% endif %}
+
+                <div class="border-bottom my-3"></div>
+
+                {% if q.footer %}
+                  <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                  <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
+                {% endif %}
+              </div>
+
                 <div class="oh-input__group mt-2">
                   <div class="oh-input-picker-group">
                     <label class="oh-input-picker oh-input-picker--likert oh-input-picker--4">
@@ -95,6 +139,29 @@
             {# ---- MULTI-CHOICES (type '4') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '4' %}
+
+                <div style="color: #545454;">
+                  {% if q.title %}
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                  {% endif %}
+                    
+                  {% if q.description %}
+                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
+                  {% endif %}
+
+                  {% if q.points %}
+                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                  {% endif %}
+
+                  <div class="border-bottom my-3"></div>
+
+                  {% if q.footer %}
+                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
+                  {% endif %}
+                </div>
+
                 <div class="d-block mt-2">
                   <div class="oh-questions mt-2">
                     {% for option in options %}
@@ -145,6 +212,29 @@
             {# ---- LIKERT (type '5') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '5' %}
+
+                <div style="color: #545454;">
+                  {% if q.title %}
+                    <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ q.title }}</span>
+                  {% endif %}
+                    
+                  {% if q.description %}
+                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
+                  {% endif %}
+
+                  {% if q.points %}
+                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                  {% endif %}
+
+                  <div class="border-bottom my-3"></div>
+
+                  {% if q.footer %}
+                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
+                  {% endif %}
+                </div>
+
                 <div class="d-block mt-2">
                   <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
                     {% for val in likert_values %}
