@@ -39,6 +39,8 @@
                   <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ question_item.points|comma_to_list|safe }}</ul>
                 {% endif %}
 
+              <div class="border-bottom my-3"></div>
+
                 {% if question_item.footer %}
                   <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
                   <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ question_item.footer }}</span>
