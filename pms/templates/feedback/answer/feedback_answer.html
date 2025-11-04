@@ -16,13 +16,14 @@
         </h1>
       </div>
 
-      <div class="oh-card mb-3">
+      <div class="oh-card mb-3" style="border-radius: 10px;">
 
-        {% regroup questions by question as question_groups %}
+        {% regroup questions by title as question_groups %}
 
         {% for group in question_groups %}
-          <div class="d-block mb-3">
-            <span class="oh-label oh-label--question">{{ forloop.counter }}. {{ group.grouper }}</span>
+          <div class="d-block mb-3 border p-4" style="background-color: #fafafa; border-radius: 10px;">
+            <span class="oh-label oh-label--question">{{ forloop.counter }}.
+            </span>
 
             {# ---- RATING (type '2') ---- #}
             {% for q in group.list %}
