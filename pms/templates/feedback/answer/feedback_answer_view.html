@@ -14,6 +14,18 @@
         <li class="oh-activity-sidebar__qa-item">
           <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}?</span>
 
+          <!-- {% for question_item in questions %}
+            <div style="color: #545454;">
+              {% if question_item.title %}
+                <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ question_item.title }}</span>
+              {% endif %}
+                
+              {% if question_item.description %}
+                <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ question_item.description }}</span>
+              {% endif %}
+            </div>
+          {% endfor %} -->
+
           {# Each group typically contains the Rating (type 2) and the Text (type 1) entries #}
           {% for answer in group.list %}
 

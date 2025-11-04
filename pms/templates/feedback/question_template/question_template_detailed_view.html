@@ -43,9 +43,8 @@
 
                                     <div class="col-sm-12 col-md-12 col-lg-12 h-auto" id="questionCreationFormCol">
                                         <label class="oh-label text-muted fw-bold block w-100">{% trans "Title" %}</label>
-                                            {{form.title}}
-
-                                            <p id="id_question_template_error" class="text-danger mt-1 p-2"></p>
+                                        {{form.title}}
+                                        <p id="id_question_template_error" class="text-danger mt-1 p-2"></p>
                                     </div>
 
                                     <div class="col-sm-12 col-md-12 col-lg-12 h-auto" >
@@ -61,7 +60,6 @@
                                     <div class="col-sm-12 col-md-12 col-lg-12 h-auto">
                                         <label class="oh-label text-muted fw-bold w-100">{% trans "Footer" %}</label>
                                         {{form.footer}}
-
                                     </div>
 
                                     <div x-data="{showAnswers: true}" class="oh-link__expanded d-none">

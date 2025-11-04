@@ -2043,11 +2043,18 @@ def feedback_answer_view(request, id, **kwargs):
         feedback_id=feedback, employee_id=employee
     )
 
+     # Questions
+    question_template = feedback.question_template_id
+    questions = question_template.question.all()
+    options = QuestionOptions.objects.all()
+
     if not answers:
         messages.info(request, _("Feedback is not answered yet"))
         return redirect(feedback_list_view)
 
     context = {
+        "questions": questions,
+        "options": options,
         "answers": answers,
         "feedback_id": feedback,
         "key_result_feedback": key_result_feedback,

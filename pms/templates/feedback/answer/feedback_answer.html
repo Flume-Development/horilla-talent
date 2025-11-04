@@ -66,9 +66,7 @@
               {% if q.question_type == '1' %}
                  <textarea
                   class="oh-input w-100" name="answer{{ q.id }}" 
-                  required>
-                  {{val}}
-                </textarea>
+                  required>{{existing_answers|get:q.id}}</textarea>
               {% endif %}
             {% endfor %}
 
