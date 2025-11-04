@@ -850,7 +850,7 @@ class QuestionForm(ModelForm):
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "class": "oh-input oh-input--res-height w-100 h-50",
+                "class": "oh-input w-100",
                 "placeholder": _("Enter description"),
             }
         ),
@@ -860,7 +860,7 @@ class QuestionForm(ModelForm):
     points = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "class": "oh-input oh-input--res-height w-100 h-50",
+                "class": "oh-input w-100",
                 "placeholder": _("Enter points"),
             }
         ),
@@ -870,7 +870,7 @@ class QuestionForm(ModelForm):
     footer = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "class": "oh-input oh-input--res-height w-100 h-50",
+                "class": "oh-input oh-input--res-height w-100",
                 "placeholder": _("Enter footer text"),
             }
         ),
