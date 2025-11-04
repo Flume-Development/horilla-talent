@@ -129,3 +129,15 @@ def is_anonymous_feedback_owner(user, feedback):
 def get(d, key):
     return d.get(key)
 
+@register.filter(name="comma_to_list")
+def comma_to_list(value):
+    """
+    Converts a comma-separated string into HTML list items.
+    Example:
+        "apple, banana, cherry" -> "<li>apple</li><li>banana</li><li>cherry</li>"
+    """
+    if not value:
+        return ""
+    items = [item.strip() for item in value.split(",") if item.strip()]
+    return "".join(f"<li>{item}</li>" for item in items)
+

@@ -457,7 +457,13 @@ class Question(HorillaModel):
         ("4", _("Multi-choices")),
         ("5", _("Likert")),
     )
-    question = models.CharField(max_length=2550, null=False, blank=False)
+    question = models.CharField(max_length=2550, null=True, blank=True, default='')
+
+    title = models.CharField(max_length=2550, null=False, blank=False, default='')
+    description = models.CharField(max_length=2550, null=True, blank=True, default='')
+    points = models.CharField(max_length=2550, null=True, blank=True, default='')
+    footer = models.CharField(max_length=2550, null=True, blank=True, default='')
+
     question_type = models.CharField(
         choices=QUESTION_TYPE_CHOICE, max_length=2550, null=True, blank=True
     )

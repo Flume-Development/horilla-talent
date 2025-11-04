@@ -29,18 +29,39 @@
                             <div class="oh-item oh-item--border-bottom oh-section-edit position-relative"
                                 id="questionParent{{form.instance.id}}">
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-12 col-lg-3">
+                                    <div class="col-12">
 
-                                        <label class="oh-label text-muted fw-bold fw-bold">{% trans "Question Type" %}
+                                        <label class="oh-label text-muted fw-bold">{% trans "Question Type" %}
                                         </label>
                                         {% render_field form.question_type disabled='disabled' %}
 
                                     </div>
 
-                                    <div class="col-sm-12 col-md-12 col-lg-9">
-                                        <label class="oh-label text-muted fw-bold" for="id_question">{% trans "Question" %}</label>
+                                    <div class="col-12">
+                                        <label class="oh-label text-muted fw-bold text-dark" for="id_question">{% trans "Question" %}</label>
                                         {% render_field form.question disabled='disabled' %}
                                     </div>
+
+                                    <div class="col-12">
+                                        <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Title" %}</label>
+                                        {% render_field form.title disabled='disabled' %}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="oh-label text-muted fw-bold text-dark" for="id_description">{% trans "Description" %}</label>
+                                        {% render_field form.description disabled='disabled' %}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="oh-label text-muted fw-bold text-dark" for="id_points">{% trans "Points" %}</label>
+                                        {% render_field form.points disabled='disabled' %}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="oh-label text-muted fw-bold text-dark" for="id_footer">{% trans "Footer" %}</label>
+                                        {% render_field form.footer disabled='disabled' %}
+                                    </div>
+
                                     <div x-data="{showAnswers: true}" class="oh-link__expanded d-none">
                                         <a href="#" class="oh-link oh-link--secondary mt-3"
                                             @click="showAnswers = !showAnswers" x-show="!showAnswers">

@@ -24,6 +24,29 @@
           <div class="d-block mb-3">
             <span class="oh-label oh-label--question">{{ forloop.counter }}. {{ group.grouper }}</span>
 
+             {% for question_item in group.list %}
+              <div style="color: #545454;">
+                {% if question_item.title %}
+                  <span class="oh-label oh-label--question" style="font-size: 1.2rem;">{{ question_item.title }}</span>
+                {% endif %}
+                  
+                {% if question_item.description %}
+                  <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ question_item.description }}</span>
+                {% endif %}
+
+                {% if question_item.points %}
+                  <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
+                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ question_item.points|comma_to_list|safe }}</ul>
+                {% endif %}
+
+                {% if question_item.footer %}
+                  <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
+                  <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ question_item.footer }}</span>
+                {% endif %}
+              </div>
+             {% endfor %}
+
+
             {# ---- RATING (type '2') ---- #}
             {% for q in group.list %}
               {% if q.question_type == '2' %}
@@ -43,7 +66,9 @@
               {% if q.question_type == '1' %}
                  <textarea
                   class="oh-input w-100" name="answer{{ q.id }}" 
-                  required></textarea>
+                  required>
+                  {{val}}
+                </textarea>
               {% endif %}
             {% endfor %}
 

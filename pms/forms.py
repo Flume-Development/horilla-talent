@@ -830,12 +830,53 @@ class QuestionForm(ModelForm):
     question = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "oh-input oh-input--small oh-input--res-height w-10000",
+                "class": "oh-input oh-input--res-height w-100",
                 "placeholder": _("Enter question"),
+            }
+        ),
+        required=False,
+    )
+
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "oh-input oh-input--res-height w-100",
+                "placeholder": _("Enter title"),
             }
         ),
         required=True,
     )
+
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "oh-input oh-input--res-height w-100 h-50",
+                "placeholder": _("Enter description"),
+            }
+        ),
+        required=False,
+    )
+
+    points = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "oh-input oh-input--res-height w-100 h-50",
+                "placeholder": _("Enter points"),
+            }
+        ),
+        required=False,
+    )
+
+    footer = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "oh-input oh-input--res-height w-100 h-50",
+                "placeholder": _("Enter footer text"),
+            }
+        ),
+        required=False,
+    )
+
     options = forms.ModelChoiceField(
         queryset=QuestionOptions.objects.all(), required=False
     )
