@@ -12,7 +12,9 @@
     <ol class="oh-activity-sidebar__qa-list" role="list">
       {% for group in question_groups %}
         <li class="oh-activity-sidebar__qa-item">
-          <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}?</span>
+          <span class ="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}?</span>
+          <p class="mb-1">{{ group.list.0.question_id.description }}</p>
+           <ul style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ group.list.0.question_id.points|comma_to_list|safe }}</ul>
 
           <!-- {% for question_item in questions %}
             <div style="color: #545454;">
