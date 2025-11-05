@@ -21,7 +21,7 @@
         {% regroup questions by title as question_groups %}
 
         {% for group in question_groups %}
-          <div class="d-block mb-3 p-4" style="background-color: #f9F9F9; border-radius: 10px;">
+          <div class="d-block mb-3">
             <!-- <span class="oh-label oh-label--question">{{ forloop.counter }}. -->
             </span>
 
@@ -87,7 +87,7 @@
                 </div>
 
                  <textarea
-                  class="oh-input w-100" name="answer{{ q.id }}" 
+                  class="oh-input w-100 mb-5" name="answer{{ q.id }}" 
                   required>{{existing_answers|get:q.id}}</textarea>
               {% endif %}
             {% endfor %}
