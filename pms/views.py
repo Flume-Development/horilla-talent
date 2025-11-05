@@ -2522,7 +2522,7 @@ def question_template_detailed_view(request, template_id, **kwargs):
         "question_options": options,
         "question_types": question_types,
         "form": QuestionForm,
-        "form_list": question_form_list,
+        "form_list": question_form_list[::-1], # Reverse list to order questions starting with the first question created
     }
     return render(
         request,

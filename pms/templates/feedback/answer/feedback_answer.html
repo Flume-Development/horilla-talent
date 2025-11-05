@@ -64,7 +64,7 @@
             {% for q in group.list %}
 
               {% if q.question_type == '1' %}
-                <div style="color: #545454;">
+                <!-- <div style="color: #545454;">
                   {% if q.title %}
                     <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                   {% endif %}
@@ -78,13 +78,11 @@
                     <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
                   {% endif %}
 
-                  <div class="border-bottom my-3"></div>
-
                   {% if q.footer %}
                     <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
                     <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
                   {% endif %}
-                </div>
+                </div> -->
 
                  <textarea
                   class="oh-input w-100 mb-5" name="answer{{ q.id }}" 
@@ -109,8 +107,6 @@
                   <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
                   <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
                 {% endif %}
-
-                <div class="border-bottom my-3"></div>
 
                 {% if q.footer %}
                   <p style="font-weight: bold; margin-bottom: 0;">In short:</p>

@@ -36,7 +36,7 @@
 
                                         <label class="oh-label text-muted fw-bold">{% trans "Question Type" %}
                                         </label>
-                                        {% render_field form.question_type disabled='disabled' %}
+                                        {% render_field form.question_type %}
 
                                     </div>
 
@@ -47,7 +47,7 @@
 
                                     <div class="col-12">
                                         <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Title" %}</label>
-                                        {% render_field form.title disabled="disabled" %}
+                                        {% render_field form.title %}
 
                                          <!-- {% if editing %}
                                             {% render_field form.title disabled="true" %}
@@ -61,17 +61,17 @@
                                     <div class="col-12">
                                         <label class="oh-label text-muted fw-bold text-dark" for="id_description">{% trans "Description" %}</label>
                                         
-                                         {% render_field form.description disabled="disabled" %}
+                                         {% render_field form.description %}
                                     </div>
 
                                     <div class="col-12">
                                         <label class="oh-label text-muted fw-bold text-dark" for="id_points">{% trans "Points" %}</label>
-                                        {% render_field form.points disabled='disabled' %}
+                                        {% render_field form.points %}
                                     </div>
 
                                     <div class="col-12">
                                         <label class="oh-label text-muted fw-bold text-dark" for="id_footer">{% trans "Footer" %}</label>
-                                        {% render_field form.footer disabled='disabled' %}
+                                        {% render_field form.footer %}
                                     </div>
 
                                     <div x-data="{showAnswers: true}" class="oh-link__expanded d-none">
@@ -89,32 +89,32 @@
                                             <div class="row">
                                                 <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                                                     <label class="oh-label d-block text-muted fw-bold" for="id_option_a">{% trans "Option" %} 1</label>
-                                                    {% render_field form.option_a disabled='disabled' %}
+                                                    {% render_field form.option_a %}
                                                 </div>
                                                 <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                                                     <label class="oh-label d-block text-muted fw-bold" for="id_option_b">{% trans "Option" %} 2</label>
-                                                    {% render_field form.option_b disabled='disabled' %}
+                                                    {% render_field form.option_b  %}
                                                 </div>
                                                 <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                                                     <label class="oh-label d-block text-muted fw-bold" for="id_option_c">{% trans "Option" %} 3</label>
-                                                    {% render_field form.option_c disabled='disabled' %}
+                                                    {% render_field form.option_c  %}
                                                 </div>
                                                 <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                                                     <label class="oh-label d-block text-muted fw-bold" for="id_option_d">{% trans "Option" %} 4</label>
-                                                    {% render_field form.option_d disabled='disabled' %}
+                                                    {% render_field form.option_d %}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 {% if perms.pms.change_question or request.user|filtersubordinates %}
-                                    <a href="#" class="oh-btn oh-btn--light oh-btn--section-edit position-absolute"
+                                    <a href="#" class="oh-btn oh-btn--light oh-btn--section-edit position-absolute d-none"
                                         role="button" style="top: 25px; right: 15px;" data-target=".oh-section-edit">
                                         <ion-icon name="create-outline" class="me-2"></ion-icon>
                                         {% trans "Edit" %}
                                     </a>
                                 {% endif %}
-                                <div class="oh-list__actions d-none">
+                                <div class="oh-list__actions">
                                     <!-- delete object form  -->
                                     {% csrf_token %}
                                     {% if perms.pms.delete_question or request.user|filtersubordinates %}

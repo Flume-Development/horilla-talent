@@ -3654,7 +3654,7 @@ var Inputs = /*#__PURE__*/function () {
       // Hide Edit Button
       closestTargetEl.classList.add('d-none');
       // Inputs
-      var inputEls = parentEl.querySelectorAll("".concat(targetEl, " input"));
+      var inputEls = parentEl.querySelectorAll("".concat(targetEl, " input, textarea"));
       inputEls.forEach(function (element) {
         element.disabled = false;
       });

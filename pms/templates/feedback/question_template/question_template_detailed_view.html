@@ -125,19 +125,20 @@
 $(document).ready(function () {
     $('#question_create_form').on('submit',function(e){
     e.preventDefault()
-    var questionValue = document.querySelector("#questionCreationFormCol #id_title #test").value
+    // var questionValue = document.querySelector("#questionCreationFormCol #id_title").value
 
-    var errorElement = $('#questionCreationFormCol #id_question_template_error')
+    // var errorElement = $('#questionCreationFormCol #id_question_template_error')
 
-    if (questionValue.trim() === '') {
-        errorElement.text('This field is required.');
-        errorElement.insertAfter($('#questionCreationFormCol'));
-    } else {
-        errorElement.text('');
-        errorElement.remove();
-        // Submit the form
-        this.submit();
-    }
+    // if (questionValue.trim() === '') {
+    //     errorElement.text('This field is required.');
+    //     errorElement.insertAfter($('#questionCreationFormCol'));
+    // } else {
+    //     errorElement.text('');
+    //     errorElement.remove();
+    //     // Submit the form
+    //     this.submit();
+    // }
+    this.submit();
     });
 });
 </script>
