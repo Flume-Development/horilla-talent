@@ -18,19 +18,15 @@
 
       <div class="oh-card mb-3" style="border-radius: 10px;">
 
-        {% regroup questions by title as question_groups %}
+        <!-- <span>{{ questions_list }}</span> -->
 
-        {% for group in question_groups %}
+        <!-- {% regroup questions by title as question_groups %} -->
+
+        {% for q in questions %}
           <div class="d-block mb-3">
-            <!-- <span class="oh-label oh-label--question">{{ forloop.counter }}. -->
-            </span>
 
-            {# ---- RATING (type '2') ---- #}
-            {% for q in group.list %}
-              {% if q.question_type == '2' %}
-
-               <div style="color: #545454;">
-                {% if q.title %}
+              <div style="color: #545454; margin-bottom: 1rem;">
+                {% if q.title and q.question_type != '1' %}
                   <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
                 {% endif %}
                   
@@ -40,7 +36,9 @@
 
                 {% if q.points %}
                   <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
+                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">
+                    {{ q.points|comma_to_list|safe }}
+                  </ul>
                 {% endif %}
 
                 {% if q.footer %}
@@ -49,203 +47,84 @@
                 {% endif %}
               </div>
 
+              {# RATING (2) #}
+              {% if q.question_type == '2' %}
                 <div class="oh-rate mt-2 mb-2">
                   {% for i in rating_values %}
                     <input type="radio" id="star{{i}}{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="{{i}}"
-                           {% if existing_answers|get:q.id == i|stringformat:"s" %}checked{% endif %} />
+                          {% if existing_answers|get:q.id == i|stringformat:"s" %}checked{% endif %} />
                     <label for="star{{i}}{{q.id}}" title="{{i}} {% trans 'Stars' %}">{{i}} {% trans "Stars" %}</label>
                   {% endfor %}
                 </div>
                 <span id="rating-radio-error"></span>
               {% endif %}
-            {% endfor %}
 
-            {# ---- TEXT (type '1') ---- #}
-            {% for q in group.list %}
-
+              {# TEXT (1) #}
               {% if q.question_type == '1' %}
-                <!-- <div style="color: #545454;">
-                  {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
-                  {% endif %}
-                    
-                  {% if q.description %}
-                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
-                  {% endif %}
-
-                  {% if q.points %}
-                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
-                  {% endif %}
-
-                  {% if q.footer %}
-                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
-                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
-                  {% endif %}
-                </div> -->
-
-                 <textarea
-                  class="oh-input w-100 mb-5" name="answer{{ q.id }}" 
-                  required>{{existing_answers|get:q.id}}</textarea>
+                <textarea class="oh-input w-100 mb-5" name="answer{{ q.id }}" required>{{existing_answers|get:q.id}}</textarea>
               {% endif %}
-            {% endfor %}
 
-            {# ---- BOOLEAN (type '3') ---- #}
-            {% for q in group.list %}
+              {# BOOLEAN (3) #}
               {% if q.question_type == '3' %}
-
-              <div style="color: #545454;">
-                {% if q.title %}
-                  <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
-                {% endif %}
-                  
-                {% if q.description %}
-                  <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
-                {% endif %}
-
-                {% if q.points %}
-                  <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                  <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
-                {% endif %}
-
-                {% if q.footer %}
-                  <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
-                  <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
-                {% endif %}
-              </div>
-
                 <div class="oh-input__group mt-2">
                   <div class="oh-input-picker-group">
                     <label class="oh-input-picker oh-input-picker--likert oh-input-picker--4">
                       {% trans "Yes" %}
                       <input type="radio" name="answer{{q.id}}" value="yes"
-                             {% if existing_answers|get:q.id == 'yes' %}checked{% endif %} />
+                            {% if existing_answers|get:q.id == 'yes' %}checked{% endif %} />
                     </label>
                     <label class="oh-input-picker oh-input-picker--likert oh-input-picker--1">
                       {% trans "No" %}
                       <input type="radio" name="answer{{q.id}}" value="no"
-                             {% if existing_answers|get:q.id == 'no' %}checked{% endif %} />
+                            {% if existing_answers|get:q.id == 'no' %}checked{% endif %} />
                     </label>
                   </div>
                 </div>
               {% endif %}
-            {% endfor %}
 
-            {# ---- MULTI-CHOICES (type '4') ---- #}
-            {% for q in group.list %}
+              {# MULTI-CHOICE (4) #}
               {% if q.question_type == '4' %}
-
-                <div style="color: #545454;">
-                  {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
-                  {% endif %}
-                    
-                  {% if q.description %}
-                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
-                  {% endif %}
-
-                  {% if q.points %}
-                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
-                  {% endif %}
-
-                  <div class="border-bottom my-3"></div>
-
-                  {% if q.footer %}
-                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
-                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
-                  {% endif %}
-                </div>
-
                 <div class="d-block mt-2">
                   <div class="oh-questions mt-2">
                     {% for option in options %}
                       {% if option.question_id.id == q.id %}
-                        {% if option.option_a %}
-                          <div class="oh-questions__answer" style="display:inline-block; margin-right:10px;">
-                            <label class="custom-radio-container">
-                              <input type="radio" name="answer{{ q.id }}" value="{{ option.option_a }}" />
-                              <span class="custom-radio-checkmark"></span>
-                              {{ option.option_a }}
-                            </label>
-                          </div>
-                        {% endif %}
-                        {% if option.option_b %}
-                          <div class="oh-questions__answer" style="display:inline-block; margin-right:10px;">
-                            <label class="custom-radio-container">
-                              <input type="radio" name="answer{{ q.id }}" value="{{ option.option_b }}" />
-                              <span class="custom-radio-checkmark"></span>
-                              {{ option.option_b }}
-                            </label>
-                          </div>
-                        {% endif %}
-                        {% if option.option_c %}
-                          <div class="oh-questions__answer" style="display:inline-block; margin-right:10px;">
-                            <label class="custom-radio-container">
-                              <input type="radio" name="answer{{ q.id }}" value="{{ option.option_c }}" />
-                              <span class="custom-radio-checkmark"></span>
-                              {{ option.option_c }}
-                            </label>
-                          </div>
-                        {% endif %}
-                        {% if option.option_d %}
-                          <div class="oh-questions__answer" style="display:inline-block; margin-right:10px;">
-                            <label class="custom-radio-container">
-                              <input type="radio" name="answer{{ q.id }}" value="{{ option.option_d }}" />
-                              <span class="custom-radio-checkmark"></span>
-                              {{ option.option_d }}
-                            </label>
-                          </div>
-                        {% endif %}
+                        {% for choice in option|dictsort:"id" %}
+                        {% endfor %}
+                        {% for choice in question_options %}
+                          {% if choice %}
+                            <div class="oh-questions__answer" style="display:inline-block; margin-right:10px;">
+                              <label class="custom-radio-container">
+                                <input type="radio" name="answer{{ q.id }}" value="{{ choice }}" />
+                                <span class="custom-radio-checkmark"></span>
+                                {{ choice }}
+                              </label>
+                            </div>
+                          {% endif %}
+                        {% endfor %}
                       {% endif %}
                     {% endfor %}
                   </div>
                 </div>
               {% endif %}
-            {% endfor %}
 
-            {# ---- LIKERT (type '5') ---- #}
-            {% for q in group.list %}
+              {# LIKERT (5) #}
               {% if q.question_type == '5' %}
-
-                <div style="color: #545454;">
-                  {% if q.title %}
-                    <span class="oh-label oh-label--question" style="font-size: 1.2rem; color: #000">{{ q.title }}</span>
-                  {% endif %}
-                    
-                  {% if q.description %}
-                    <span class="oh-label oh-label--question" style="color: #545454; font-weight: 100;">{{ q.description }}</span>
-                  {% endif %}
-
-                  {% if q.points %}
-                    <p style="font-weight: bold; margin-bottom: 0;">What it involves:</p>
-                    <ul class="oh-label--question" style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ q.points|comma_to_list|safe }}</ul>
-                  {% endif %}
-
-                  <div class="border-bottom my-3"></div>
-
-                  {% if q.footer %}
-                    <p style="font-weight: bold; margin-bottom: 0;">In short:</p>
-                    <span class="oh-label--question" style="font-weight: 100; margin-bottom: 1rem;">{{ q.footer }}</span>
-                  {% endif %}
-                </div>
-
                 <div class="d-block mt-2">
                   <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
                     {% for val in likert_values %}
-                      <div class="oh-input-picker oh-input-picker--likert oh-input-picker--{{ forloop.counter }}  {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}oh-input-picker--selected{% endif %}">
+                      <div class="oh-input-picker oh-input-picker--likert oh-input-picker--{{ forloop.counter }} {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}oh-input-picker--selected{% endif %}">
                         {% trans val %}
                         <input type="radio" name="answer{{q.id}}" value="{{ val }}"
-                               {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}checked{% endif %} />
+                              {% if existing_answers|get:q.id|stringformat:"s" == val|stringformat:"s" %}checked{% endif %} />
                       </div>
                     {% endfor %}
                   </div>
                 </div>
               {% endif %}
-            {% endfor %}
 
           </div>
         {% endfor %}
+
 
       </div>
 

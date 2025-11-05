@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Case, When, IntegerField
 
 from base.methods import (
     closest_numbers,
@@ -1921,9 +1922,55 @@ def feedback_answer_get(request, id, **kwargs):
     if existing_answers and feedback.status == "Closed":
         messages.info(request, _("Feedback already submitted."))
         return redirect(feedback_list_view)
+    
+    ordered_questions = (
+        questions
+        .annotate(
+            order_type=Case(
+                When(question_type='2', then=0),  # rating first
+                When(question_type='1', then=1),  # text next
+                default=2,
+                output_field=IntegerField(),
+            )
+        )
+        .order_by('title', 'order_type', 'id')  # 'id' prevents random within-group shuffling
+    )
+
+    from collections import defaultdict
+
+    # Step 1: group questions by title
+    title_groups = defaultdict(list)
+    for q in questions:
+        title_groups[q.title].append(q)
+
+    # Step 2: build pairs of rating + text per title
+    bundled_questions = {}
+    for title, qs in title_groups.items():
+        # Extract rating and text separately
+        ratings = [q for q in qs if q.question_type == '2']
+        texts = [q for q in qs if q.question_type == '1']
+        others = [q for q in qs if q.question_type not in ('1','2')]
+        
+        # Pair rating and text
+        pairs = []
+        max_len = max(len(ratings), len(texts))
+        for i in range(max_len):
+            pair = {
+                'rating': ratings[i] if i < len(ratings) else None,
+                'text': texts[i] if i < len(texts) else None,
+            }
+            pairs.append(pair)
+        
+        # Store bundles along with remaining questions
+        bundled_questions[title] = {
+            'pairs': pairs,
+            'others': others,
+        }
+
 
     context = {
-        "questions": questions,
+        "questions": ordered_questions,
+        "questions_list": ordered_questions.values_list("question_type", "title", "order_type"),
         "options": options,
         "feedback": feedback,
         "rating_values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
