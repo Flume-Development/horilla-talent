@@ -2219,11 +2219,30 @@ def get_feedback_overview(request, obj_id):
         request, feedback, perm="pms.view_feedback"
     ):
         question_template = feedback.question_template_id
+
         questions = question_template.question.all()
+
+        ordered_questions = (
+            questions
+            .annotate(
+                order_type=Case(
+                    When(question_type='2', then=0),  # rating first
+                    When(question_type='1', then=1),  # text next
+                    default=2,
+                    output_field=IntegerField(),
+                ),
+                has_ordering=Case(
+                    When(ordering=0, then=1),         # 1 = no meaningful ordering
+                    default=0,                        # 0 = apply ordering
+                    output_field=IntegerField(),
+                ),
+            ).order_by('has_ordering', 'ordering', 'title', 'order_type','id')  # 'id' prevents random within-group shuffling
+        )
+
         feedback_answers = feedback.feedback_answer.all()
         kr_feedbacks = feedback.feedback_key_result.all()
         feedback_overview = {}
-        for question in questions:
+        for question in ordered_questions:
             answer_list = []
             for answer in feedback_answers:
                 if answer.question_id == question:
