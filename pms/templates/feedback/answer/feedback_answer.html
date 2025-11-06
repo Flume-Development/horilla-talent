@@ -61,7 +61,7 @@
 
               {# TEXT (1) #}
               {% if q.question_type == '1' %}
-                <textarea class="oh-input w-100 mb-5" name="answer{{ q.id }}" required>{{existing_answers|get:q.id}}</textarea>
+                <textarea class="oh-input w-100 mb-5" name="answer{{ q.id }}">{{existing_answers|get:q.id|default_if_none:""}}</textarea>
               {% endif %}
 
               {# BOOLEAN (3) #}
