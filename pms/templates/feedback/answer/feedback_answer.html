@@ -52,7 +52,7 @@
                 <div class="oh-rate mt-2 mb-2">
                   {% for i in rating_values %}
                     <input type="radio" id="star{{i}}{{q.id}}" name="answer{{q.id}}" class="rating-radio" value="{{i}}"
-                          {% if existing_answers|get:q.id == i|stringformat:"s" %}checked{% endif %} />
+                          {% if existing_answers|get:q.id|stringformat:"s" == i|stringformat:"s" %}checked{% endif %} />
                     <label for="star{{i}}{{q.id}}" title="{{i}} {% trans 'Stars' %}">{{i}} {% trans "Stars" %}</label>
                   {% endfor %}
                 </div>
@@ -166,4 +166,14 @@
     </div>
   </form>
 </div>
+
+<script>
+    // document.querySelectorAll('.rating-radio').forEach(radio => {
+    //   radio.addEventListener('click', function(event) {
+    //     event.preventDefault(); // prevents default scrolling behavior
+    //     this.checked = !this.checked;    // manually check it
+    //   });
+    // });
+
+</script>
 {% endblock content %}

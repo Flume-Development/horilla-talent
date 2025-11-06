@@ -45,17 +45,21 @@
                                         {% render_field form.question disabled='disabled' %}
                                     </div> -->
 
-                                    <div class="col-12">
-                                        <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Title" %}</label>
-                                        {% render_field form.title %}
+                                    <div class="col-12 row">
+                                        <div class="col-8">
+                                            <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Title" %}</label>
+                                            {% render_field form.title %}
 
-                                         <!-- {% if editing %}
-                                            {% render_field form.title disabled="true" %}
-                                        {% else %}
-                                            {% render_field form.title disabled="false" %}
-                                        {% endif %} -->
-
-                                        
+                                            <!-- {% if editing %}
+                                                {% render_field form.title disabled="true" %}
+                                            {% else %}
+                                                {% render_field form.title disabled="false" %}
+                                            {% endif %} -->
+                                        </div>
+                                        <div class="col-4">
+                                             <label class="oh-label text-muted fw-bold text-dark" for="id_title">{% trans "Ordering" %}</label>
+                                            {% render_field form.ordering %}
+                                        </div>
                                     </div>
 
                                     <div class="col-12">

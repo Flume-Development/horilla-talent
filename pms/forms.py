@@ -847,6 +847,16 @@ class QuestionForm(ModelForm):
         required=False,
     )
 
+    ordering = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "oh-input oh-input--res-height w-100",
+                "placeholder": _("Enter Ordering"),
+            }
+        ),
+        required=False,
+    )
+
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={

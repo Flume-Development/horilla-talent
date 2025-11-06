@@ -39,10 +39,22 @@
 
                                         </div> -->
 
-                                        <div class="col-sm-12 col-md-12 col-lg-12 h-auto" id="questionCreationFormCol">
-                                            <label class="oh-label text-muted fw-bold block w-100">{% trans "Title" %}</label>
-                                            {{form.title}}
-                                            <p id="id_question_template_error" class="text-danger mt-1 p-2"></p>
+                                        <div class="col-sm-12 col-md-12 col-lg-12 h-auto d-none" id="questionCreationFormCol">
+                                           
+                                        </div>
+
+                                        <div class="col-12 row">
+                                            <div class="col-8">
+                                                <label class="oh-label text-muted fw-bold block w-100">{% trans "Title" %}</label>
+                                                {{form.title}}
+                                                <p id="id_question_template_error" class="text-danger mt-1 p-2"></p>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="oh-label text-muted fw-bold block w-100">{% trans "Ordering" %}</label>
+                                                {{form.ordering}}
+                                                <p id="id_question_template_error" class="text-danger mt-1 p-2"></p>
+                                            </div>
                                         </div>
 
                                         <div class="col-sm-12 col-md-12 col-lg-12 h-auto" >

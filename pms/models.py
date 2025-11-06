@@ -464,9 +464,10 @@ class Question(HorillaModel):
     points = models.CharField(max_length=2550, null=True, blank=True, default='')
     footer = models.CharField(max_length=2550, null=True, blank=True, default='')
 
-    question_type = models.CharField(
-        choices=QUESTION_TYPE_CHOICE, max_length=2550, null=True, blank=True
-    )
+    ordering = models.IntegerField(default=0, null=False, verbose_name=_("Ordering"))
+
+    question_type = models.CharField(choices=QUESTION_TYPE_CHOICE, max_length=2550, null=True, blank=True)
+    
     template_id = models.ForeignKey(
         QuestionTemplate,
         on_delete=models.CASCADE,
