@@ -1,61 +1,35 @@
 {% load i18n %}
 
-{# Group answers that share the same question text #}
-{% regroup answers by question_id.question as answer_groups %}
+{# Group answers by question text #}
+{% regroup answers by question_id.title as answer_groups %}
 
 {% for group in answer_groups %}
   <li class="oh-activity-sidebar__qa-item">
-    <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}?</span>
+    <span class="oh-activity-sidebar__q">{{ forloop.counter }}. {{ group.grouper }}</span>
 
-    {# --- RATING (type '2') if present --- #}
+    <p class="mb-1">{{ group.list.0.question_id.description }}</p>
+    <ul style="list-style-type: disc; font-weight: 100; margin-top: 0;">{{ group.list.0.question_id.points|comma_to_list|safe }}</ul>
+
     {% for answer in group.list %}
       {% if answer.question_id.question_type == '2' %}
+        {# RATING #}
         <div class="d-block mb-0">
           <div class="oh-rate">
-            <input type="radio" id="star10{{answer.id}}" value="10" disabled {% if answer.answer.answer == '10' %}checked{% endif %} />
-            <label for="star10{{answer.id}}" title="10 Stars">10 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star9{{answer.id}}"  value="9"  disabled {% if answer.answer.answer == '9' %}checked{% endif %} />
-            <label for="star9{{answer.id}}"  title="9 Stars">9 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star8{{answer.id}}"  value="8"  disabled {% if answer.answer.answer == '8' %}checked{% endif %} />
-            <label for="star8{{answer.id}}"  title="8 Stars">8 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star7{{answer.id}}"  value="7"  disabled {% if answer.answer.answer == '7' %}checked{% endif %} />
-            <label for="star7{{answer.id}}"  title="7 Stars">7 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star6{{answer.id}}"  value="6"  disabled {% if answer.answer.answer == '6' %}checked{% endif %} />
-            <label for="star6{{answer.id}}"  title="6 Stars">6 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star5{{answer.id}}"  value="5"  disabled {% if answer.answer.answer == '5' %}checked{% endif %} />
-            <label for="star5{{answer.id}}"  title="5 Stars">5 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star4{{answer.id}}"  value="4"  disabled {% if answer.answer.answer == '4' %}checked{% endif %} />
-            <label for="star4{{answer.id}}"  title="4 Stars">4 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star3{{answer.id}}"  value="3"  disabled {% if answer.answer.answer == '3' %}checked{% endif %} />
-            <label for="star3{{answer.id}}"  title="3 Stars">3 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star2{{answer.id}}"  value="2"  disabled {% if answer.answer.answer == '2' %}checked{% endif %} />
-            <label for="star2{{answer.id}}"  title="2 Stars">2 {% trans "Stars" %}</label>
-
-            <input type="radio" id="star1{{answer.id}}"  value="1"  disabled {% if answer.answer.answer == '1' %}checked{% endif %} />
-            <label for="star1{{answer.id}}"  title="1 Star">1 {% trans "Star" %}</label>
+            {% for i in rating_values %}
+              <input type="radio"
+                     id="star{{i}}{{answer.id}}"
+                     value="{{i}}"
+                     disabled
+                     {% if answer.answer.answer|stringformat:"s" == i|stringformat:"s" %}checked{% endif %} />
+              <label for="star{{i}}{{answer.id}}" title="{{ i }} {% trans 'Stars' %}">{{ i }} {% trans 'Stars' %}</label>
+            {% endfor %}
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
-
-    {# --- TEXT (type '1') if present --- #}
-    {% for answer in group.list %}
-      {% if answer.question_id.question_type == '1' %}
+      {% elif answer.question_id.question_type == '1' %}
+        {# TEXT #}
         <span class="oh-activity-sidebar__a d-block">{{ answer.answer.answer }}.</span>
-      {% endif %}
-    {% endfor %}
-
-    {# --- BOOLEAN (type '3') if present --- #}
-    {% for answer in group.list %}
-      {% if answer.question_id.question_type == '3' %}
+      {% elif answer.question_id.question_type == '3' %}
+        {# BOOLEAN #}
         <div class="oh-input__group">
           <div class="oh-input-picker-group">
             <div class="oh-input-picker oh-input-picker--selected boolean-colour">
@@ -64,12 +38,8 @@
             </div>
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
-
-    {# --- MULTI-CHOICES (type '4') if present (display the chosen value) --- #}
-    {% for answer in group.list %}
-      {% if answer.question_id.question_type == '4' %}
+      {% elif answer.question_id.question_type == '4' %}
+        {# MULTI-CHOICES #}
         <div class="d-block">
           <ul class="oh-questions mt-2">
             <li class="oh-questions__answer">
@@ -81,12 +51,8 @@
             </li>
           </ul>
         </div>
-      {% endif %}
-    {% endfor %}
-
-    {# --- LIKERT (type '5') if present --- #}
-    {% for answer in group.list %}
-      {% if answer.question_id.question_type == '5' %}
+      {% elif answer.question_id.question_type == '5' %}
+        {# LIKERT #}
         <div class="d-block">
           <div class="oh-input-picker-group oh-input-picker-group--resp mt-2">
             <div class="oh-input-picker oh-input-picker--likert likert-colour oh-input-picker--selected">
@@ -96,7 +62,6 @@
         </div>
       {% endif %}
     {% endfor %}
-
   </li>
 {% endfor %}
 

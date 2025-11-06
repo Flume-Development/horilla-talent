@@ -1836,11 +1836,40 @@ def feedback_detailed_view_answer(request, id, emp_id):
     kr_feedbacks = KeyResultFeedback.objects.filter(
         feedback_id=feedback, employee_id=employee
     )
+
+    answers = Answer.objects.filter(employee_id=employee, feedback_id=feedback)
+
+    ordered_answers = (
+        answers
+        .select_related('question_id')  # to avoid extra queries
+        .annotate(
+            type_priority=Case(
+                When(question_id__question_type='2', then=0),  # rating first
+                When(question_id__question_type='1', then=1),  # text second
+                default=2,
+                output_field=IntegerField(),
+            ),
+            has_ordering=Case(
+                When(question_id__ordering=0, then=1),  # ignore ordering if 0
+                default=0,                              # apply ordering if > 0
+                output_field=IntegerField(),
+            ),
+        )
+        .order_by(
+            'has_ordering',         # use ordering only if > 0
+            'question_id__ordering',   # group by question title
+            'question_id__title',   # group by question title
+            'type_priority',        # rating first
+            'id'                    # stable fallback
+        )
+    )
+
     if is_have_perm:
-        answers = Answer.objects.filter(employee_id=employee, feedback_id=feedback)
+       
         context = {
-            "answers": answers,
+            "answers": ordered_answers,
             "kr_feedbacks": kr_feedbacks,
+            "rating_values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
         }
         return render(request, "feedback/feedback_detailed_view_answer.html", context)
     else:
