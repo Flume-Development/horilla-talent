@@ -2072,11 +2072,36 @@ def feedback_answer_view(request, id, **kwargs):
     if not answers:
         messages.info(request, _("Feedback is not answered yet"))
         return redirect(feedback_list_view)
+    
+    ordered_answers = (
+        answers
+        .select_related('question_id')  # to avoid extra queries
+        .annotate(
+            type_priority=Case(
+                When(question_id__question_type='2', then=0),  # rating first
+                When(question_id__question_type='1', then=1),  # text second
+                default=2,
+                output_field=IntegerField(),
+            ),
+            has_ordering=Case(
+                When(question_id__ordering=0, then=1),  # ignore ordering if 0
+                default=0,                              # apply ordering if > 0
+                output_field=IntegerField(),
+            ),
+        )
+        .order_by(
+            'has_ordering',         # use ordering only if > 0
+            'question_id__ordering',   # group by question title
+            'question_id__title',   # group by question title
+            'type_priority',        # rating first
+            'id'                    # stable fallback
+        )
+    )
 
     context = {
         "questions": questions,
         "options": options,
-        "answers": answers,
+        "answers": ordered_answers,
         "feedback_id": feedback,
         "key_result_feedback": key_result_feedback,
     }
