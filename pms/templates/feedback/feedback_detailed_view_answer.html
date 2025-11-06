@@ -15,13 +15,13 @@
         {# RATING #}
         <div class="d-block mb-0">
           <div class="oh-rate">
-            {% for i in rating_values %}
+            {% for i, text in rating_values %}
               <input type="radio"
                      id="star{{i}}{{answer.id}}"
                      value="{{i}}"
                      disabled
                      {% if answer.answer.answer|stringformat:"s" == i|stringformat:"s" %}checked{% endif %} />
-              <label for="star{{i}}{{answer.id}}" title="{{ i }} {% trans 'Stars' %}">{{ i }} {% trans 'Stars' %}</label>
+              <label for="star{{i}}{{answer.id}}" title="{{ i }} {% trans text %}">{{ i }} {% trans text %}</label>
             {% endfor %}
           </div>
         </div>

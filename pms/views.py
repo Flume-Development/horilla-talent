@@ -1869,7 +1869,18 @@ def feedback_detailed_view_answer(request, id, emp_id):
         context = {
             "answers": ordered_answers,
             "kr_feedbacks": kr_feedbacks,
-            "rating_values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+            "rating_values": [
+                (10, "Truly Exceptional"),
+                (9, "Outstanding"),
+                (8, "Exceeds Expectations"),
+                (7, "Strong Performer"),
+                (6, "Meets Expectations"),
+                (5, "Partially Meets / Growth Needed"),
+                (4, "Needs Improvement"),
+                (3, "Underperforming"),
+                (2, "Significant Support Required"),
+                (1, "Critical Non-Performance"),
+            ],
         }
         return render(request, "feedback/feedback_detailed_view_answer.html", context)
     else:
@@ -1976,7 +1987,18 @@ def feedback_answer_get(request, id, **kwargs):
         "questions_list": ordered_questions.values_list( "title", "ordering"),
         "options": options,
         "feedback": feedback,
-        "rating_values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        "rating_values": [
+            (10, "Truly Exceptional"),
+            (9, "Outstanding"),
+            (8, "Exceeds Expectations"),
+            (7, "Strong Performer"),
+            (6, "Meets Expectations"),
+            (5, "Partially Meets / Growth Needed"),
+            (4, "Needs Improvement"),
+            (3, "Underperforming"),
+            (2, "Significant Support Required"),
+            (1, "Critical Non-Performance"),
+        ],
         "likert_values": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
         "keyresult_values": ["Perfect", "Good", "Average", "Bad"],
         "question_options": ["option_a", "option_b", "option_c", "option_d"],
