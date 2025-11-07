@@ -116,7 +116,7 @@ class Department(HorillaModel):
         verbose_name_plural = _("Departments")
 
     def clean(self, *args, **kwargs):
-        super().clean(*args, **kwargs)
+        super().clean()
         request = getattr(_thread_locals, "request", None)
         if request and request.POST:
             company = request.POST.getlist("company_id", None)
@@ -132,8 +132,9 @@ class Department(HorillaModel):
         return
 
     def save(self, *args, **kwargs):
+        self.clean()
         super().save(*args, **kwargs)
-        self.clean(*args, **kwargs)
+
         return self
 
     def __str__(self):
