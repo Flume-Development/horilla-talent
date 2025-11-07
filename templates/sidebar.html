@@ -139,51 +139,101 @@ function initializeSummernote(candId,searchWords,) {
         </a>
       </li>
       {% for menues in sidebar %}
-      <li
-        class="oh-sidebar__menu-item"
-        x-data="{ isOpen: getOpenState('{{menues.app}}GenericNav') }"
-      >
-        <a
-          class="oh-sidebar__menu-link"
-          data-id="{{menues.app}}GenericNav"
-          x-on:click.prevent="isOpen = !isOpen; saveOpenState('{{menues.app}}GenericNav', isOpen)"
-          x-bind:class="isOpen ? 'oh-sidebar__menu-link--active' : ''"
-          style="cursor: pointer"
-        >
-        <div class="oh-sidebar__menu-icon">
-          <img
-            src="{% static menues.img_src %}"
-            alt="Dashboard"
-            style="filter: brightness(0) invert(1);"
-            width="24"
-            height="24"
-          />
-        </div>
-        <span>
-            {{menues.menu}}
-        </span>
-        </a>
-        <div
-          class="oh-sidebar__submenu"
-          id="{{menues.app}}GenericNav"
-          style="display: none"
-          x-show="isOpen"
-          x-transition
-        >
-          <ul class="oh-sidebar__submenu-items">
-              {% for submenu in menues.submenu %}
-              <li class="oh-sidebar__submenu-item">
-              <a
-                  href="{{submenu.redirect}}"
-                  class="oh-sidebar__submenu-link"
-              >
-                  {{submenu.menu}}
-              </a>
-              </li>
-              {% endfor %}
-          </ul>
-        </div>
-      </li>
+
+      {% if request.user.is_staff and menues.menu != 'Performance' %}
+        <li
+          class="oh-sidebar__menu-item"
+          x-data="{ isOpen: getOpenState('{{menues.app}}GenericNav') }">
+          <a
+            class="oh-sidebar__menu-link"
+            data-id="{{menues.app}}GenericNav"
+            x-on:click.prevent="isOpen = !isOpen; saveOpenState('{{menues.app}}GenericNav', isOpen)"
+            x-bind:class="isOpen ? 'oh-sidebar__menu-link--active' : ''"
+            style="cursor: pointer"
+          >
+          <div class="oh-sidebar__menu-icon">
+            <img
+              src="{% static menues.img_src %}"
+              alt="Dashboard"
+              style="filter: brightness(0) invert(1);"
+              width="24"
+              height="24"
+            />
+          </div>
+          <span>
+              {{menues.menu}}
+          </span>
+          </a>
+          <div
+            class="oh-sidebar__submenu"
+            id="{{menues.app}}GenericNav"
+            style="display: none"
+            x-show="isOpen"
+            x-transition
+          >
+            <ul class="oh-sidebar__submenu-items">
+                {% for submenu in menues.submenu %}
+                <li class="oh-sidebar__submenu-item">
+                <a
+                    href="{{submenu.redirect}}"
+                    class="oh-sidebar__submenu-link"
+                >
+                    {{submenu.menu}}
+                </a>
+                </li>
+                {% endfor %}
+            </ul>
+          </div>
+        </li>
+      {% endif %}
+
+      {% if  menues.menu == 'Performance' %}
+        <li
+          class="oh-sidebar__menu-item"
+          x-data="{ isOpen: getOpenState('{{menues.app}}GenericNav') }">
+          <a
+            class="oh-sidebar__menu-link"
+            data-id="{{menues.app}}GenericNav"
+            x-on:click.prevent="isOpen = !isOpen; saveOpenState('{{menues.app}}GenericNav', isOpen)"
+            x-bind:class="isOpen ? 'oh-sidebar__menu-link--active' : ''"
+            style="cursor: pointer"
+          >
+          <div class="oh-sidebar__menu-icon">
+            <img
+              src="{% static menues.img_src %}"
+              alt="Dashboard"
+              style="filter: brightness(0) invert(1);"
+              width="24"
+              height="24"
+            />
+          </div>
+          <span>
+              {{menues.menu}}
+          </span>
+          </a>
+          <div
+            class="oh-sidebar__submenu"
+            id="{{menues.app}}GenericNav"
+            style="display: none"
+            x-show="isOpen"
+            x-transition
+          >
+            <ul class="oh-sidebar__submenu-items">
+                {% for submenu in menues.submenu %}
+                <li class="oh-sidebar__submenu-item">
+                <a
+                    href="{{submenu.redirect}}"
+                    class="oh-sidebar__submenu-link"
+                >
+                    {{submenu.menu}}
+                </a>
+                </li>
+                {% endfor %}
+            </ul>
+          </div>
+        </li>
+      {% endif %}
+
       {% endfor %}
 
       {% if request.user|config_perms %}
