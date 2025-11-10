@@ -9436,15 +9436,20 @@ select.oh-select--lg {
   padding: 0;
 }
 
+.oh-rate > input {
+  display: none;
+}
+
 .oh-rate:not(:checked) > input {
-  position: absolute;
+  /* position: absolute;
   top: -9999px;
+*/
 }
 
 .oh-rate:not(:checked) > label {
   float: right;
   width: 1.15em;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   cursor: pointer;
   font-size: 1.25rem;
