@@ -2405,9 +2405,9 @@ def question_creation(request, id):
         feedback_ongoing = Feedback.objects.filter(
             question_template_id=question_template
         ).first()
-        if feedback_ongoing:
-            messages.info(request, _("Question template is used in feedback."))
-            return redirect(question_template_detailed_view, id)
+        # if feedback_ongoing:
+        #     messages.info(request, _("Question template is used in feedback."))
+        #     return redirect(question_template_detailed_view, id)
         if form.is_valid():
             obj_question = form.save(commit=False)
             obj_question.template_id = question_template
