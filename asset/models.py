@@ -52,7 +52,7 @@ class AssetLot(HorillaModel):
         null=False,
         blank=False,
         unique=True,
-        verbose_name=_("Batch Number"),
+        verbose_name=_("Invoice Number"),
     )
     lot_description = models.TextField(
         null=True, blank=True, max_length=255, verbose_name=_("Description")
