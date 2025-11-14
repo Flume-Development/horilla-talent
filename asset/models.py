@@ -95,7 +95,7 @@ class Asset(HorillaModel):
         null=True, blank=True, max_length=255, verbose_name=_("Description")
     )
     asset_tracking_id = models.CharField(
-        max_length=30, null=False, unique=True, verbose_name=_("Tracking Id")
+        max_length=30, null=False, unique=True, verbose_name=_("Serial No.")
     )
     asset_purchase_date = models.DateField(verbose_name=_("Purchase Date"))
     asset_purchase_cost = models.DecimalField(
@@ -115,7 +115,7 @@ class Asset(HorillaModel):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
-        verbose_name=_("Batch No"),
+        verbose_name=_("Invoice No."),
     )
     expiry_date = models.DateField(null=True, blank=True, verbose_name=_("Expiry Date"))
     notify_before = models.IntegerField(

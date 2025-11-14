@@ -77,10 +77,10 @@ class AssetForm(ModelForm):
                     "id", "lot_number"
                 )
             )
-            batch_no_choices.insert(0, ("", _("---Choose Batch No.---")))
+            batch_no_choices.insert(0, ("", _("---Choose Invoice No.---")))
 
             if not self.instance.pk:
-                batch_no_choices.append(("create", _("Create new batch number")))
+                batch_no_choices.append(("create", _("Create new invoice number")))
 
             self.fields["asset_lot_number_id"].choices = batch_no_choices
 
