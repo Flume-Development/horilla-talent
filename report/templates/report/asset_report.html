@@ -65,7 +65,7 @@
                                                 </div>
                                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                                     <div class="oh-input-group">
-                                                        <label class="oh-label" for="{{asset_filter_form.asset_lot_number_id.id_for_label}}">{% trans "Asset Batch Number" %}</label>
+                                                        <label class="oh-label" for="{{asset_filter_form.asset_lot_number_id.id_for_label}}">{% trans "Asset Invoice Number" %}</label>
                                                         {{asset_filter_form.asset_lot_number_id}}
                                                     </div>
                                                 </div>
@@ -130,7 +130,7 @@
             success: function (data) {
                 // Render the pivot table with the filtered data
                 $("#pivot-container").pivotUI(data, {
-                    rows: ["Asset Name","Category","Tracking ID","Batch Number","Status","Asset Cost","Asset User","Phone"],
+                    rows: ["Asset Name","Category","Tracking ID","Invoice Number","Status","Asset Cost","Asset User","Phone"],
                     cols: [],
                     aggregatorName: "Count",
                     rendererName: "Table", // Default view as Table
@@ -159,7 +159,7 @@
         // Initialize the pivot table on page load
         $.getJSON("asset-pivot", function (data) {
             $("#pivot-container").pivotUI(data, {
-                rows: ["Asset Name","Category","Tracking ID","Batch Number","Status","Asset Cost","Asset User","Phone"],
+                rows: ["Asset Name","Category","Tracking ID","Invoice Number","Status","Asset Cost","Asset User","Phone"],
                 cols: [],
                 aggregatorName: "Count",
                 rendererName: "Table", // Default view as Table
