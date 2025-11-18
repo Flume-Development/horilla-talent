@@ -2120,9 +2120,9 @@ def feedback_answer_view(request, id, **kwargs):
     questions = question_template.question.all()
     options = QuestionOptions.objects.all()
 
-    if not answers:
-        messages.info(request, _("Feedback is not answered yet"))
-        return redirect(feedback_list_view)
+    # if not answers:
+    #     messages.info(request, _("Feedback is not answered yet"))
+    #     return redirect(feedback_list_view)
     
     ordered_answers = (
         answers
