@@ -8,10 +8,13 @@ from horilla import settings
 from horilla.settings import INSTALLED_APPS
 
 # Injecting installed apps to settings
+# Note: rest_framework, rest_framework_simplejwt, and horilla_api are already
+# defined in settings.py, so we only add drf_yasg here to avoid duplicates
 
-REST_APPS = ["rest_framework", "rest_framework_simplejwt", "drf_yasg", "horilla_api"]
+REST_APPS = ["drf_yasg"]
 
-INSTALLED_APPS.extend(REST_APPS)
+if "drf_yasg" not in INSTALLED_APPS:
+    INSTALLED_APPS.append("drf_yasg")
 
 REST_FRAMEWORK_SETTINGS = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],

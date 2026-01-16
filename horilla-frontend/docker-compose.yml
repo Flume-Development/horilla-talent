@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: horilla-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NUXT_PUBLIC_API_BASE_URL=http://backend:8000
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    depends_on:
+      - backend
+    networks:
+      - horilla-network
+    restart: unless-stopped
+
+  # Backend service (optional - for reference)
+  backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: horilla-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=*
+      - TIME_ZONE=Asia/Kolkata
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
+      - DB_ENGINE=django.db.backends.sqlite3
+      - DB_NAME=/app/db.sqlite3
+    volumes:
+      - backend_staticfiles:/app/staticfiles
+      - backend_media:/app/media
+    networks:
+      - horilla-network
+    restart: unless-stopped
+
+networks:
+  horilla-network:
+    driver: bridge
+
+volumes:
+  backend_staticfiles:
+  backend_media:

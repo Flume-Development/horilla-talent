@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "types": ["nuxt/schema", "@nuxt/devtools"],
+    "paths": {
+      "~": ["."],
+      "~~": ["."],
+      "#app": [".nuxt"],
+      "#build": [".nuxt"],
+      "#head": ["node_modules/unhead/dist/index.d.ts"]
+    }
+  },
+  "include": [".nuxt/**/*.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": ["node_modules", "dist", ".nuxt"]
+}

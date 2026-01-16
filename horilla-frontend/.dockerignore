@@ -1,0 +1,44 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+
+# Build outputs
+.nuxt
+dist
+.output
+coverage
+
+# IDE
+.vscode
+.idea
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env*
+.env.local
+
+# Testing
+.nyc_output
+*.test.js
+
+# Documentation
+README.md
+QUICKSTART.md
+README-zh.md
+CONTRIBUTING.md
+
+# Other
+.turbo
+.vercel

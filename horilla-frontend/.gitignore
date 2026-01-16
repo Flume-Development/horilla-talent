@@ -1,0 +1,39 @@
+# Nuxt
+.nuxt
+dist
+.output
+
+# Node
+node_modules
+*.pem
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE
+.vscode
+.idea
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+.nyc_output
+
+# Misc
+*.log
+*.tmp
+.turbo
